@@ -49,8 +49,9 @@ const Header = () => {
             <FaRegBell />
           </StyledBadge>
         </IconButton>
-
-        <div className="relative">
+        {
+          context.isLogin === true ? (
+            <div className="relative">
           <div
             className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer"
             onClick={handleClickMyAcc}
@@ -62,7 +63,7 @@ const Header = () => {
             />
           </div>
           <Menu
-            anchorE1={anchorMyAcc}
+            anchorEl={anchorMyAcc}
             id="account-menu"
             open={openMyAcc}
             onClose={handleCloseMyAcc}
@@ -135,6 +136,14 @@ const Header = () => {
             </MenuItem>
           </Menu>
         </div>
+
+          ):
+          (
+            <Button className="btn-blue btn-sm !rounded-full !capitalize">Sighn in</Button>
+          )
+        }
+
+        
       </div>
     </header>
   );
