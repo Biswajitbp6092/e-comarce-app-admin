@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DashboardBoxes from "../../Component/DashboardBoxes/DashboardBoxes";
 import Button from "@mui/material/Button";
 import { FaPlus, FaRegEye } from "react-icons/fa";
@@ -27,6 +27,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { myContext } from "../../App";
 
 const Dashboard = () => {
   const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
@@ -39,6 +40,8 @@ const Dashboard = () => {
   };
 
   const [categoryFilterVal, setCategoryFilterVal] = useState("");
+
+  const context = useContext(myContext);
 
   const handleChangeCatFilter = (event) => {
     setCategoryFilterVal(event.target.value);
@@ -131,7 +134,15 @@ const Dashboard = () => {
             once.
           </p>
           <br />
-          <Button className="btn-blue !capitalize flex gap-2">
+          <Button
+            onClick={() =>
+              context.setIsOppenFullScreenPanel({
+                open: true,
+                model: "Add Product",
+              })
+            }
+            className="btn-blue !capitalize flex gap-2"
+          >
             <FaPlus />
             Add Products
           </Button>
@@ -171,7 +182,17 @@ const Dashboard = () => {
             <Button className="btn !bg-green-600 !text-white btn-sm">
               Export
             </Button>
-            <Button className="btn-blue !text-white btn-sm">Add Product</Button>
+            <Button
+              onClick={() =>
+                context.setIsOppenFullScreenPanel({
+                  open: true,
+                  model: "Add Product",
+                })
+              }
+              className="btn-blue !text-white btn-sm"
+            >
+              Add Product
+            </Button>
           </div>
         </div>
         <div className="relative overflow-x-auto mt-5 pb-5">
@@ -874,7 +895,12 @@ const Dashboard = () => {
             strokeWidth={3}
             activeDot={{ r: 8 }}
           />
-          <Line type="monotone" dataKey="Users" stroke="#82ca9d" strokeWidth={3} />
+          <Line
+            type="monotone"
+            dataKey="Users"
+            stroke="#82ca9d"
+            strokeWidth={3}
+          />
         </LineChart>
       </div>
     </>

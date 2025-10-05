@@ -28,7 +28,8 @@ const Sidebar = () => {
     <>
       <div
         className={`sidebar fixed top-0 left-0 bg-[#fff] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4 
-          w-[${context.isSidebarOpen === true ? "18%" : "0px"}]`}>
+          w-[${context.isSidebarOpen === true ? "18%" : "0px"}]`}
+      >
         <div className="py-2 w-full">
           <Link to="/">
             <img src="/logo.jpg" alt="" className="w-[180px]" />
@@ -116,12 +117,18 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="/products/upload">
-                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
-                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                      Products Upload
-                    </Button>
-                  </Link>
+                  <Button
+                    onClick={() =>
+                      context.setIsOppenFullScreenPanel({
+                        open: true,
+                        model: "Add Product",
+                      })
+                    }
+                    className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
+                    <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                    Products Upload
+                  </Button>
                 </li>
               </ul>
             </Collapse>
