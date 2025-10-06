@@ -40,7 +40,8 @@ const AddProducts = () => {
   return (
     <section className="p-5 bg-gray-50">
       <form action="" className="form py-3 p-8">
-        <div className="scroll max-h-[75vh] overflow-y-scroll pr-4">
+        <div className="scroll max-h-[72vh] overflow-y-scroll pr-4">
+          
           <div className="grid grid-cols-1 mb-3">
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">

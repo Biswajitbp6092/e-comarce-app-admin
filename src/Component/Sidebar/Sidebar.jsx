@@ -11,6 +11,7 @@ import { MdLogout } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { Collapse } from "react-collapse";
 import { myContext } from "../../App";
+import Modal from "@mui/material/Modal";
 
 const Sidebar = () => {
   const [subMenuIndex, setSubMenuIndex] = useState(null);
@@ -65,13 +66,15 @@ const Sidebar = () => {
             <Collapse isOpened={subMenuIndex === 1 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
+                  <Link to="/homeslider/list">
                   <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Home Banner List
                   </Button>
+                  </Link>
                 </li>
                 <li className="w-full">
-                  <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add Home Slider'})} className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Add Home Banner Slide
                   </Button>
@@ -154,7 +157,7 @@ const Sidebar = () => {
             <Collapse isOpened={subMenuIndex === 4 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Link to="/categories">
+                  <Link to="/category/list">
                     <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Category List
@@ -162,15 +165,15 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="/category/add">
-                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
-                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                      Add a Category
-                    </Button>
-                  </Link>
+                  <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add New Category'})} 
+                    className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
+                    <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                    Add a Category
+                  </Button>
                 </li>
                 <li className="w-full">
-                  <Link to="/category/subcat">
+                  <Link to="/subcategory/list">
                     <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Sub Category List
@@ -178,22 +181,24 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="/category/subcat/add">
-                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+           
+                    <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add New Sub Category'})} className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Add a Sub Category
                     </Button>
-                  </Link>
+                
                 </li>
               </ul>
             </Collapse>
           </li>
 
           <li>
+            <Link to="/orders">
             <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]">
               <IoBagCheck size={18} />
               <span>Orders</span>
             </Button>
+            </Link>
           </li>
 
           <li>

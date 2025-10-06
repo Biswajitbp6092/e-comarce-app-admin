@@ -404,9 +404,7 @@ const Products = () => {
                 onChange={handleChangeCatFilter}
                 label="Category"
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
+                <MenuItem value=""><em>None</em></MenuItem>
                 <MenuItem value={10}>Man</MenuItem>
                 <MenuItem value={20}>Woman</MenuItem>
                 <MenuItem value={30}>KIds</MenuItem>
