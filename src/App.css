@@ -29,3 +29,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .MuiSelect-select{ background-color: #fff !important;}
 .MuiDialog-paper{ background-color: #f9fafb !important; }
+
+.otpBox input{border: 1px solid rgba(0,0,0,0.3) !important; outline: none !important; border-radius: 4px;}
+.otpBox input:focus {border: 1px solid rgba(0,0,0,0.7) !important;}
+.otpPage .container{height:90vh; display: flex;}
+
+.MuiTableBody-root tr:nth-child(even){@apply bg-gray-50;}
+.MuiTableBody-root tr:hover{background-color: #f5f5f5 !important;}
+.MuiTableCell-root{ border-bottom: 1px solid #e0e0e0 !important; padding: 12px 16px !important; font-size: 14px !important;}
+.MuiTableCell-root a{ color: #3872fa !important; text-decoration: none !important;}
+.MuiTableCell-root a:hover{ text-decoration: underline !important;}

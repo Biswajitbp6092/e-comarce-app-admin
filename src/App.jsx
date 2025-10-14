@@ -26,6 +26,9 @@ import SubCategoryList from "./page/Category/SubCategoryList";
 import AddSubCategory from "./page/Category/AddSubCategory";
 import Users from "./page/Users/Users";
 import Orders from "./page/Orders/Orders";
+import ForgotPassword from "./page/ForgotPassword/ForgotPassword";
+import VerifyAccount from "./page/VerifyAccount/VerifyAccount";
+import ChangePassword from "./page/ChangePassword/ChangePassword";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -74,6 +77,34 @@ function App() {
       element: (
         <>
           <Login />
+        </>
+      ),
+    },
+
+    {
+      path: "/forgot-password",
+      exact: true,
+      element: (
+        <>
+          <ForgotPassword />
+        </>
+      ),
+    },
+    {
+      path: "/verify-account",
+      exact: true,
+      element: (
+        <>
+          <VerifyAccount />
+        </>
+      ),
+    },
+        {
+      path: "/change-password",
+      exact: true,
+      element: (
+        <>
+          <ChangePassword />
         </>
       ),
     },
@@ -296,9 +327,15 @@ function App() {
             </Toolbar>
           </AppBar>
           {isOppenFullScreenPanel.model === "Add Product" && <AddProducts />}
-          {isOppenFullScreenPanel.model === "Add Home Slider" && (<AddHomeSlide />)}
-          {isOppenFullScreenPanel.model === "Add New Category" && (<AddCategory />)}
-          {isOppenFullScreenPanel.model === "Add New Sub Category" && (<AddSubCategory />)}
+          {isOppenFullScreenPanel.model === "Add Home Slider" && (
+            <AddHomeSlide />
+          )}
+          {isOppenFullScreenPanel.model === "Add New Category" && (
+            <AddCategory />
+          )}
+          {isOppenFullScreenPanel.model === "Add New Sub Category" && (
+            <AddSubCategory />
+          )}
         </Dialog>
       </myContext.Provider>
     </>

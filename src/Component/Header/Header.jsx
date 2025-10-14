@@ -13,6 +13,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import { myContext } from "../../App";
+import { Link } from "react-router-dom";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -139,7 +140,9 @@ const Header = () => {
 
           ):
           (
-            <Button className="btn-blue btn-sm !rounded-full !capitalize">Sighn in</Button>
+            <Link to="/login">
+            <Button className="btn-blue btn-sm !rounded-full !capitalize">Sign in</Button>
+            </Link>
           )
         }
 
