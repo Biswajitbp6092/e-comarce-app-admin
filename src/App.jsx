@@ -30,6 +30,10 @@ import ForgotPassword from "./page/ForgotPassword/ForgotPassword";
 import VerifyAccount from "./page/VerifyAccount/VerifyAccount";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
 
+import toast, { Toaster } from "react-hot-toast";
+import { fetchDataFromApi } from "./utils/api";
+import { useEffect } from "react";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -37,6 +41,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
+
+    const [userData, setUserData] = useState(null);
+
+
   const [isOppenFullScreenPanel, setIsOppenFullScreenPanel] = useState({
     open: false,
     model: "product",
@@ -99,7 +107,7 @@ function App() {
         </>
       ),
     },
-        {
+    {
       path: "/change-password",
       exact: true,
       element: (
@@ -283,6 +291,29 @@ function App() {
       ),
     },
   ]);
+
+  const openAlartBox = (status, msg) => {
+    if (status === "Sucess") {
+      toast.success(msg);
+    }
+    if (status === "Error") {
+      toast.error(msg);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token !== undefined && token !== null && token !== "") {
+      setIsLogin(true);
+      fetchDataFromApi(`/api/user/user-details`).then((res) => {
+        console.log(res);
+        setUserData(res?.data?.data);
+      });
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
   const values = {
     isSidebarOpen,
     setIsSidebarOpen,
@@ -290,6 +321,9 @@ function App() {
     setIsLogin,
     isOppenFullScreenPanel,
     setIsOppenFullScreenPanel,
+    openAlartBox,
+    userData,
+    setUserData,
   };
 
   return (
@@ -337,6 +371,7 @@ function App() {
             <AddSubCategory />
           )}
         </Dialog>
+        <Toaster />
       </myContext.Provider>
     </>
   );

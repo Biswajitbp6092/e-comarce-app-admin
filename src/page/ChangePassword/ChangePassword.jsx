@@ -1,24 +1,75 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { CgLogIn } from "react-icons/cg";
 import { FaRegUser } from "react-icons/fa";
 
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { myContext } from "../../App.jsx";
+import { postData } from "../../utils/api.js";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ChangePassword = () => {
   const [isPasswordShow, setisPasswordShow] = useState(false);
   const [isPasswordShow2, setisPasswordShow2] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handelClickShowPassword = () => {
-    setisPasswordShow(!isPasswordShow);
+  const [formFields, setFormFields] = useState({
+    email: localStorage.getItem("userEmail"),
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const context = useContext(myContext);
+  const navigate = useNavigate();
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => ({
+      ...formFields,
+      [name]: value,
+    }));
   };
 
-    const handelClickShowPassword2 = () => {
-    setisPasswordShow2(!isPasswordShow2);
+  const validValue = formFields.newPassword && formFields.confirmPassword;
+
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (formFields.newPassword === "") {
+      context.openAlartBox("Error", "Please Enter New password");
+      setIsLoading(false);
+      return false;
+    }
+    if (formFields.confirmPassword === "") {
+      context.openAlartBox("Error", "Please Enter confirm password");
+      setIsLoading(false);
+      return false;
+    }
+    if (formFields.newPassword !== formFields.confirmPassword) {
+      context.openAlartBox(
+        "Error",
+        "Password and Confirm password must be same"
+      );
+      setIsLoading(false);
+      return false;
+    }
+
+    postData(`/api/user/reset-password`, formFields).then((res) => {
+      console.log(res);
+      if (res?.error === false) {
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("actionType");
+        setIsLoading(false);
+        navigate("/login");
+        context.openAlartBox("Sucess", res?.message);
+      } else {
+        context.openAlartBox("Error", res?.message);
+        setIsLoading(false);
+      }
+    });
   };
 
   return (
@@ -61,16 +112,20 @@ const ChangePassword = () => {
 
         <br />
 
-        <form action="" className="w-full px-8 mt-3">
+        <form action="" className="w-full px-8 mt-3" onSubmit={handelSubmit}>
           <div className="form-group mb-4 w-full">
             <h4 className="text-[14px] font-[500] mb-1">New Password</h4>
             <div className="relative w-full">
               <input
                 type={isPasswordShow ? "text" : "password"}
                 className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
+                name="newPassword"
+                value={formFields.newPassword}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
               <Button
-                onClick={handelClickShowPassword}
+                onClick={() => setisPasswordShow(!isPasswordShow)}
                 className="!absolute top-[10px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-600"
               >
                 {isPasswordShow === true ? (
@@ -88,12 +143,16 @@ const ChangePassword = () => {
               <input
                 type={isPasswordShow2 ? "text" : "password"}
                 className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
+                name="confirmPassword"
+                value={formFields.confirmPassword}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
               <Button
-                onClick={handelClickShowPassword2}
+                onClick={() => setisPasswordShow2(!isPasswordShow2)}
                 className="!absolute top-[10px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-600"
               >
-                {isPasswordShow === true ? (
+                {isPasswordShow2 === true ? (
                   <FaRegEye size={16} />
                 ) : (
                   <FaEyeSlash size={16} />
@@ -102,8 +161,20 @@ const ChangePassword = () => {
             </div>
           </div>
 
-     
-          <Button className="btn-blue btn-lg w-full">Change Password</Button>
+          <Button
+            type="submit"
+            disabled={!validValue}
+            className="btn-blue btn-lg w-full"
+          >
+            {isLoading ? (
+              <CircularProgress
+                color="inherit"
+                style={{ width: "20px", height: "20px" }}
+              />
+            ) : (
+              "Change Password"
+            )}
+          </Button>
         </form>
       </div>
     </section>

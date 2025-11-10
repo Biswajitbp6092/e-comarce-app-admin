@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { CgLogIn } from "react-icons/cg";
@@ -10,17 +10,81 @@ import Checkbox from "@mui/material/Checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
+import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
+import { postData } from "../../utils/api.js";
+import { myContext } from "../../App";
+
 const SignUp = () => {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [loadingFb, setLoadingFb] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isPasswordShow, setisPasswordShow] = useState();
+
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const context =useContext(myContext);
+  const navigate = useNavigate();
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => ({
+      ...formFields,
+      [name]: value,
+    }));
+  };
+
+  const validValue = Object.values(formFields).every((el) => el);
+
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (formFields.name === "") {
+      context.openAlartBox("Error", "Please add full name");
+      return false;
+    }
+    if (formFields.email === "") {
+      context.openAlartBox("Error", "Please Enter email id");
+      return false;
+    }
+    if (formFields.password === "") {
+      context.openAlartBox("Error", "Please Enter password");
+      return false;
+    }
+
+    postData("/api/user/register", formFields).then((res) => {
+      if (res?.error !== true) {
+        setIsLoading(false);
+        context.openAlartBox("Sucess", res?.message);
+        localStorage.setItem("userEmail", formFields.email);
+        setFormFields({
+          name: "",
+          email: "",
+          password: "",
+        });
+        navigate("/verify-account");
+      } else {
+        context.openAlartBox("Error", res?.message);
+        setIsLoading(false);
+      }
+    });
+  };
+
   function handleClickGoogle() {
     setLoadingGoogle(true);
   }
-  const [loadingFb, setLoadingFb] = useState(false);
+
   function handleClickFb() {
     setLoadingFb(true);
   }
 
-  const [isPasswordShow, setisPasswordShow] = useState();
   function handelClickShowPassword() {
     setisPasswordShow(!isPasswordShow);
   }
@@ -95,12 +159,16 @@ const SignUp = () => {
         </div>
         <br />
 
-        <form action="" className="w-full px-8 mt-3">
+        <form action="" className="w-full px-8 mt-3" onSubmit={handelSubmit}>
           <div className="form-group mb-4 w-full">
             <h4 className="text-[14px] font-[500] mb-1">Full Name</h4>
             <input
               type="text"
               className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
+              name="name"
+              value={formFields.name}
+              disabled={isLoading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
 
@@ -109,6 +177,10 @@ const SignUp = () => {
             <input
               type="email"
               className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
+              name="email"
+              value={formFields.email}
+              disabled={isLoading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
 
@@ -118,6 +190,10 @@ const SignUp = () => {
               <input
                 type={isPasswordShow ? "text" : "password"}
                 className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
+                name="password"
+                value={formFields.password}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
               <Button
                 onClick={handelClickShowPassword}
@@ -144,7 +220,20 @@ const SignUp = () => {
               Forgot Password
             </Link>
           </div>
-          <Button className="btn-blue btn-lg w-full">Sign Up</Button>
+          <Button
+            type="submit"
+            disabled={!validValue}
+            className="btn-blue btn-lg w-full"
+          >
+            {isLoading ? (
+              <CircularProgress
+                color="inherit"
+                style={{ width: "20px", height: "20px" }}
+              />
+            ) : (
+              "sign Up"
+            )}
+          </Button>
         </form>
       </div>
     </section>

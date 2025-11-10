@@ -3,11 +3,10 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 export const postData = async (url, formData) => {
   try {
-
     const response = await fetch(apiUrl + url, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
@@ -40,3 +39,35 @@ export const fetchDataFromApi = async (url) => {
     return error;
   }
 };
+
+export const uploadImage = async (url, updatedData) => {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  var response;
+  await axios.put(apiUrl + url, updatedData, params).then((res) => {
+    console.log(res);
+    response = res;
+  });
+  return response;
+};
+
+
+export const editData = async (url, updatedData) => {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  var response;
+  await axios.put(apiUrl + url, updatedData, params).then((res) => {
+    console.log(res);
+    response = res;
+  });
+  return response;
+};
+

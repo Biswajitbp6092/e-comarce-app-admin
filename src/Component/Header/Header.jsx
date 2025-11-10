@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import { myContext } from "../../App";
 import { Link } from "react-router-dom";
-
+import { fetchDataFromApi } from "../../utils/api";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -35,11 +35,36 @@ const Header = () => {
     setAnchorMyAcc(null);
   };
 
-  const context = useContext(myContext)
+  const context = useContext(myContext);
+
+  const logout = () => {
+    setAnchorMyAcc(null);
+    fetchDataFromApi(
+      `/api/user/logout?token=${localStorage.getItem("accessToken")}`,
+      {
+        withCredentials: true,
+      }
+    ).then((res) => {
+      if (res?.data.error === false) {
+        context.setIsLogin(false);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        navigate("/");
+      }
+    });
+  };
+
   return (
-    <header className={`w-full h-[auto] py-2 ${context.isSidebarOpen=== true ? "pl-74":"pl-5"} transition-all ease-linear shadow-md pr-7 bg-[#ffffff] flex items-center justify-between`}>
+    <header
+      className={`w-full h-[auto] py-2 ${
+        context.isSidebarOpen === true ? "pl-74" : "pl-5"
+      } transition-all ease-linear shadow-md pr-7 bg-[#ffffff] flex items-center justify-between`}
+    >
       <div className="part1">
-        <Button onClick={()=>context.setIsSidebarOpen(!context.isSidebarOpen)} className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]">
+        <Button
+          onClick={() => context.setIsSidebarOpen(!context.isSidebarOpen)}
+          className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]"
+        >
           <RiMenu2Fill size={22} className="text-[rgba(0,0,0,0.8)]" />
         </Button>
       </div>
@@ -50,103 +75,99 @@ const Header = () => {
             <FaRegBell />
           </StyledBadge>
         </IconButton>
-        {
-          context.isLogin === true ? (
-            <div className="relative">
-          <div
-            className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer"
-            onClick={handleClickMyAcc}
-          >
-            <img
-              src="https://ecme-react.themenate.net/img/avatars/thumb-1.jpg"
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <Menu
-            anchorEl={anchorMyAcc}
-            id="account-menu"
-            open={openMyAcc}
-            onClose={handleCloseMyAcc}
-            onClick={handleCloseMyAcc}
-            slotProps={{
-              paper: {
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&::before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
+        {context.isLogin === true ? (
+          <div className="relative">
+            <div
+              className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer"
+              onClick={handleClickMyAcc}
+            >
+              <img
+                src="https://ecme-react.themenate.net/img/avatars/thumb-1.jpg"
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <Menu
+              anchorEl={anchorMyAcc}
+              id="account-menu"
+              open={openMyAcc}
+              onClose={handleCloseMyAcc}
+              onClick={handleCloseMyAcc}
+              slotProps={{
+                paper: {
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
                   },
                 },
-              },
-            }}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          >
-            <MenuItem onClick={handleCloseMyAcc} className="!bg-white">
-              <div className="flex items-center gap-3">
-                <div className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer">
-                  <img
-                    src="https://ecme-react.themenate.net/img/avatars/thumb-1.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem onClick={handleCloseMyAcc} className="!bg-white">
+                <div className="flex items-center gap-3">
+                  <div className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer">
+                    <img
+                      src="https://ecme-react.themenate.net/img/avatars/thumb-1.jpg"
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="info">
-                <h3 className="text-[15px] font-[500] leading-4">
-                  Biswajit Biswas
-                </h3>
-                <p className="text-[13px] font-[400] opacity-75">
-                  biswajitbp6092@gmail.com
-                </p>
-              </div>
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              onClick={handleCloseMyAcc}
-              className="flex items-center gap-3"
-            >
-              <FaRegUser size={16} />
-              <span>Profile</span>
-            </MenuItem>
+                <div className="info">
+                  <h3 className="text-[15px] font-[500] leading-4">
+                    {context.userData?.name}
+                  </h3>
+                  <p className="text-[13px] font-[400] opacity-75">
+                    {context.userData?.email}
+                  </p>
+                </div>
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                onClick={handleCloseMyAcc}
+                className="flex items-center gap-3"
+              >
+                <FaRegUser size={16} />
+                <span>Profile</span>
+              </MenuItem>
 
-            <MenuItem
-              onClick={handleCloseMyAcc}
-              className="flex items-center gap-3"
-            >
-              <PiSignOutBold size={18} />
-              <span>Sign Out</span>
-            </MenuItem>
-          </Menu>
-        </div>
-
-          ):
-          (
-            <Link to="/login">
-            <Button className="btn-blue btn-sm !rounded-full !capitalize">Sign in</Button>
-            </Link>
-          )
-        }
-
-        
+              <MenuItem
+                onClick={logout}
+                className="flex items-center gap-3"
+              >
+                <PiSignOutBold size={18} />
+                <span>Sign Out</span>
+              </MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          <Link to="/login">
+            <Button className="btn-blue btn-sm !rounded-full !capitalize">
+              Sign in
+            </Button>
+          </Link>
+        )}
       </div>
     </header>
   );
