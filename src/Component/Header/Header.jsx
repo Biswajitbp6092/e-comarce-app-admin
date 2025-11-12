@@ -144,6 +144,7 @@ const Header = () => {
                 </div>
               </MenuItem>
               <Divider />
+              <Link to={"/profile"}>
               <MenuItem
                 onClick={handleCloseMyAcc}
                 className="flex items-center gap-3"
@@ -151,11 +152,9 @@ const Header = () => {
                 <FaRegUser size={16} />
                 <span>Profile</span>
               </MenuItem>
+              </Link>
 
-              <MenuItem
-                onClick={logout}
-                className="flex items-center gap-3"
-              >
+              <MenuItem onClick={logout} className="flex items-center gap-3">
                 <PiSignOutBold size={18} />
                 <span>Sign Out</span>
               </MenuItem>

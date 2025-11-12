@@ -15,10 +15,6 @@ import { MdOutlineMail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { IoCalendarOutline } from "react-icons/io5";
 
-
-
-
-
 const columns = [
   { id: "userImg", label: "USERS IMAGE", minWidth: 80 },
   { id: "userName", label: "USERS NAME", minWidth: 100 },
@@ -59,8 +55,6 @@ const Users = () => {
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-
-
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox size="small" />
@@ -74,14 +68,57 @@ const Users = () => {
                       {column.label}
                     </TableCell>
                   ))}
-                  
                 </TableRow>
               </TableHead>
 
-            
               <TableBody>
+                <TableRow>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <Checkbox {...label} size="small" />
+                  </TableCell>
 
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <div className="flex items-center gap-4 w-[70px]">
+                      <div className="img w-[45px] h-[45px] rounded-md overflow-hidden group">
+                        <Link to="/product/45745" data-discover="true">
+                          <img
+                            src="https://mui.com/static/images/avatar/1.jpg"
+                            alt="User"
+                            className="w-full  group-hover:scale-105 transition-all"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  </TableCell>
 
+                  {/* USER NAME */}
+                  <TableCell style={{ width: columns.minWidth }}>
+                    John Doe
+                  </TableCell>
+
+                  {/* USER EMAIL */}
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
+                  </TableCell>
+
+                  {/* USER PHONE */}
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
+                  </TableCell>
+
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
+                  </TableCell>
+                </TableRow>
 
                 <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
@@ -109,20 +146,29 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
 
-                 <TableRow>
+                <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
                     <Checkbox {...label} size="small" />
                   </TableCell>
@@ -148,21 +194,29 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
 
-
-                 <TableRow>
+                <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
                     <Checkbox {...label} size="small" />
                   </TableCell>
@@ -188,21 +242,29 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
 
-
-                 <TableRow>
+                <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
                     <Checkbox {...label} size="small" />
                   </TableCell>
@@ -228,21 +290,29 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
 
-
-                 <TableRow>
+                <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
                     <Checkbox {...label} size="small" />
                   </TableCell>
@@ -268,21 +338,29 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
 
-
-                 <TableRow>
+                <TableRow>
                   <TableCell style={{ width: columns.minWidth }}>
                     <Checkbox {...label} size="small" />
                   </TableCell>
@@ -308,61 +386,27 @@ const Users = () => {
 
                   {/* USER EMAIL */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
+                    <span className="flex items-center gap-2">
+                      <MdOutlineMail />
+                      johndoe@example.com
+                    </span>
                   </TableCell>
 
                   {/* USER PHONE */}
                   <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
+                    <span className="flex items-center gap-2">
+                      <IoCall />
+                      +91 9876543210
+                    </span>
                   </TableCell>
 
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
+                  <TableCell style={{ width: columns.minWidth }}>
+                    <span className="flex items-center gap-2">
+                      <IoCalendarOutline />
+                      07-10-2025
+                    </span>
                   </TableCell>
                 </TableRow>
-
-
-                 <TableRow>
-                  <TableCell style={{ width: columns.minWidth }}>
-                    <Checkbox {...label} size="small" />
-                  </TableCell>
-
-                  <TableCell style={{ width: columns.minWidth }}>
-                    <div className="flex items-center gap-4 w-[70px]">
-                      <div className="img w-[45px] h-[45px] rounded-md overflow-hidden group">
-                        <Link to="/product/45745" data-discover="true">
-                          <img
-                            src="https://mui.com/static/images/avatar/1.jpg"
-                            alt="User"
-                            className="w-full  group-hover:scale-105 transition-all"
-                          />
-                        </Link>
-                      </div>
-                    </div>
-                  </TableCell>
-
-                  {/* USER NAME */}
-                  <TableCell style={{ width: columns.minWidth }}>
-                    John Doe
-                  </TableCell>
-
-                  {/* USER EMAIL */}
-                  <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><MdOutlineMail/>johndoe@example.com</span>
-                  </TableCell>
-
-                  {/* USER PHONE */}
-                  <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCall/>+91 9876543210</span>
-                  </TableCell>
-
-                    <TableCell style={{ width: columns.minWidth }}>
-                    <span className="flex items-center gap-2"><IoCalendarOutline/>07-10-2025</span>
-                  </TableCell>
-                </TableRow>
-
-
-
               </TableBody>
             </Table>
           </TableContainer>
