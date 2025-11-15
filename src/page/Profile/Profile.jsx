@@ -2,18 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { myContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { editData, postData, uploadImage } from "../../utils/api";
+import {
+  editData,
+  fetchDataFromApi,
+  postData,
+  uploadImage,
+} from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { Collapse } from "react-collapse";
+import Radio from "@mui/material/Radio";
+
+const label = { slotProps: { input: { "aria-label": "Checkbox demo" } } };
 
 import TextField from "@mui/material/TextField";
 
 const Profile = () => {
   const [previews, setPreviews] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [address, setAddress] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
@@ -36,6 +45,13 @@ const Profile = () => {
   const context = useContext(myContext);
   const navigate = useNavigate();
 
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+    
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token === null) {
@@ -45,6 +61,13 @@ const Profile = () => {
 
   useEffect(() => {
     if (context?.userData?._id !== "" && context?.userData?._id !== undefined) {
+      fetchDataFromApi(
+        `/api/address/get?userId=${context?.userData?._id}`
+      ).then((res) => {
+        setAddress(res.data?.data);
+        context?.setAddress(res.data?.data);
+      });
+
       setUserId(context?.userData?._id);
       setFormFields({
         name: context?.userData?.name || "",
@@ -93,19 +116,17 @@ const Profile = () => {
       return false;
     }
 
-    editData(`/api/user/${userId}`, formFields, {
-      withCredentials: true,
-    }).then((res) => {
-      console.log(res);
-
-      if (res?.error !== true) {
-        setIsLoading(false);
-        context.openAlartBox("Sucess", res?.data?.message);
-      } else {
-        context.openAlartBox("Error", res?.data?.message);
-        setIsLoading(false);
+    editData(`/api/user/${userId}`, formFields, { withCredentials: true }).then(
+      (res) => {
+        if (res?.error !== true) {
+          setIsLoading(false);
+          context.openAlartBox("Sucess", res?.data?.message);
+        } else {
+          context.openAlartBox("Error", res?.data?.message);
+          setIsLoading(false);
+        }
       }
-    });
+    );
   };
 
   const validValue2 = Object.values(formFields).every((el) => el);
@@ -304,8 +325,9 @@ const Profile = () => {
             </div>
           </div>
           <br />
+
           <div
-            className="flex items-center justify-center p-5 border border-dashed border-[rgba(0,0,0,0.2)] bg-[#f1f1f1] hover:bg-[#e7f3f9] cursor-pointer"
+            className="flex items-center justify-center p-5 rounded-md border border-dashed border-[rgba(0,0,0,0.2)] bg-[#f1f1f1] hover:bg-[#e7f3f9] cursor-pointer"
             onClick={() =>
               context.setIsOppenFullScreenPanel({
                 open: true,
@@ -315,6 +337,41 @@ const Profile = () => {
           >
             <span className="text-[14px] font-[500]">Add Address</span>
           </div>
+
+          <div className="flex gap-2 flex-col mt-4">
+            {context?.address?.length > 0 &&
+              context?.address?.map((address, index) => {
+                return (
+                  <>
+                    <label className="border border-dashed border-[rgba(0,0,0,0.2)] addressBox w-full flex items-center justify-center bg-[#f1f1f1] p-3 rounded-md cursor-pointer">
+                      <Radio
+                        {...label}
+                        name="address"
+                        checked={selectedValue === address?._id}
+                        value={address?._id}
+                        onChange={handleChange}
+                      />
+                      <span className="text-[12px]">
+                        {address?.address_line +
+                          " " +
+                          address?.city +
+                          " " +
+                          address?.country +
+                          " " +
+                          address?.state +
+                          " " +
+                          address?.pin_code +
+                          " " +
+                          "(" +
+                          address?.mobile +
+                          ")"}
+                      </span>
+                    </label>
+                  </>
+                );
+              })}
+          </div>
+
           <br />
           <div className="flex items-center gap-4">
             <Button

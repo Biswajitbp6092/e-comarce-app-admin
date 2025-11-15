@@ -43,8 +43,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
-
   const [userData, setUserData] = useState(null);
+   const [address, setAddress] = useState([]);
 
   const [isOppenFullScreenPanel, setIsOppenFullScreenPanel] = useState({
     open: false,
@@ -359,6 +359,8 @@ function App() {
     openAlartBox,
     userData,
     setUserData,
+    setAddress,
+    address
   };
 
   return (

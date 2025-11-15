@@ -5,8 +5,14 @@ import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { fetchDataFromApi, postData } from "../../utils/api";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { myContext } from "../../App";
 
 const AddAddress = () => {
+  const context = useContext(myContext);
+  // const navigate = useNavigate();
   const [phone, setPhone] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,17 +26,31 @@ const AddAddress = () => {
     country: "",
     mobile: "",
     status: "",
-    userId: "",
+    userId: context?.userData?._id,
+    selected:false
   });
+
+  useEffect(() => {
+    if (context?.userData?._id) {
+      setFormFields((prevState) => ({
+        ...prevState,
+        userId: context.userData._id,
+      }));
+    }
+  }, [context?.userData]);
 
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
+    setFormFields((prevState) => ({
+      ...prevState,
+      status: event.target.value,
+    }));
   };
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
-    setFormFields(() => ({
-      ...formFields,
+    setFormFields((prevState) => ({
+      ...prevState,
       [name]: value,
     }));
   };
@@ -74,9 +94,9 @@ const AddAddress = () => {
       setIsLoading(false);
       return false;
     }
- 
 
-    editData(`/api/user/${userId}`, formFields, {
+    console.log(formFields);
+    postData(`/api/address/add`, formFields, {
       withCredentials: true,
     }).then((res) => {
       console.log(res);
@@ -84,6 +104,12 @@ const AddAddress = () => {
       if (res?.error !== true) {
         setIsLoading(false);
         context.openAlartBox("Sucess", res?.data?.message);
+        context.setIsOppenFullScreenPanel({
+          open: false,
+        });
+        fetchDataFromApi(`/api/address/get?userId=${context?.userData?._id}`).then((res) => {
+          context?.setAddress(res.data?.data);
+        });
       } else {
         context.openAlartBox("Error", res?.data?.message);
         setIsLoading(false);
@@ -102,6 +128,9 @@ const AddAddress = () => {
             <input
               type="text"
               className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3 text-sm"
+              onChange={onChangeInput}
+              value={formFields.address_line}
+              name="address_line"
             />
           </div>
 
@@ -110,6 +139,9 @@ const AddAddress = () => {
             <input
               type="text"
               className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3 text-sm"
+              onChange={onChangeInput}
+              value={formFields.city}
+              name="city"
             />
           </div>
         </div>
@@ -120,6 +152,9 @@ const AddAddress = () => {
             <input
               type="text"
               className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3 text-sm"
+              onChange={onChangeInput}
+              value={formFields.state}
+              name="state"
             />
           </div>
 
@@ -128,6 +163,9 @@ const AddAddress = () => {
             <input
               type="text"
               className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3 text-sm"
+              onChange={onChangeInput}
+              value={formFields.pin_code}
+              name="pin_code"
             />
           </div>
 
@@ -136,6 +174,9 @@ const AddAddress = () => {
             <input
               type="text"
               className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3 text-sm"
+              onChange={onChangeInput}
+              value={formFields.country}
+              name="country"
             />
           </div>
 
@@ -144,10 +185,12 @@ const AddAddress = () => {
             <PhoneInput
               defaultCountry="in"
               value={phone}
-              onChange={(value) => setPhone(value)}
-              autoFormat={true}
-              forceDialCode={true}
-              disableDialCodePrefill={false}
+              onChange={(value) => {
+                setPhone(value);
+                setFormFields((prev) => ({ ...prev, mobile: value }));
+              }}
+              autoFormat
+              forceDialCode
               className="w-full border border-[rgba(0,0,0,0.2)] rounded-md"
             />
           </div>
@@ -161,9 +204,6 @@ const AddAddress = () => {
               size="small"
               className="w-full"
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               <MenuItem value={true}>True</MenuItem>
               <MenuItem value={false}>False</MenuItem>
             </Select>
@@ -171,9 +211,12 @@ const AddAddress = () => {
         </div>
 
         <div className="w-[250px] mt-4">
-          <Button type="button" className="btn-blue btn-lg w-full flex gap-2">
+          <Button
+            type="submit"
+            className="btn-blue btn-lg w-full flex gap-2 items-center justify-center"
+          >
             <FaCloudUploadAlt className="text-[25px] text-white" />
-            Publish and View
+            {isLoading ? "Publishing..." : "Publish and View"}
           </Button>
         </div>
       </form>
