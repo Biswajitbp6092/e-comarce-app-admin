@@ -1,14 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UploadBox from "../../Component/UploadBox/UploadBox";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { IoMdClose } from "react-icons/io";
 import Button from "@mui/material/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { deleteImages, postData } from "../../utils/api";
+import {
+  deleteImages,
+  editData,
+  fetchDataFromApi,
+  postData,
+} from "../../utils/api";
 import { myContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const AddCategory = () => {
+const EditCategory = () => {
   const [formFields, setFormFields] = useState({
     name: "",
     images: [],
@@ -19,6 +24,15 @@ const AddCategory = () => {
 
   const context = useContext(myContext);
 
+  useEffect(() => {
+    const id = context?.isOppenFullScreenPanel?.id;
+    fetchDataFromApi(`/api/category/${id}`).then((res) => {
+      console.log(res);
+      formFields.name = res?.data?.category?.name;
+      setPreviews(res?.data?.category?.images);
+    });
+  }, []);
+
   const onChangeInput = (e) => {
     const { name, value } = e.target;
 
@@ -28,6 +42,7 @@ const AddCategory = () => {
         [name]: value,
       };
     });
+    formFields.images = previews;
   };
 
   const setPreviewsFun = (previewsArr) => {
@@ -64,15 +79,16 @@ const AddCategory = () => {
       return false;
     }
 
-    postData(`/api/category/create`, formFields).then((res) => {
-      console.log(res);
-     
-       setTimeout(()=>{
+    editData(
+      `/api/category/${context?.isOppenFullScreenPanel?.id}`,
+      formFields
+    ).then((res) => {
+      setTimeout(() => {
         setIsLoading(false);
         context.setIsOppenFullScreenPanel({
           open: false,
         });
-       },1500)
+      }, 1500);
     });
   };
 
@@ -148,4 +164,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default EditCategory;

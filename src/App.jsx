@@ -35,6 +35,7 @@ import { fetchDataFromApi } from "./utils/api";
 import { useEffect } from "react";
 import Profile from "./page/Profile/Profile";
 import AddAddress from "./page/AddAddress/AddAddress";
+import EditCategory from "./page/Category/EditCategory";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -48,7 +49,7 @@ function App() {
 
   const [isOppenFullScreenPanel, setIsOppenFullScreenPanel] = useState({
     open: false,
-    model: "product",
+    id:"",
   });
 
   const router = createBrowserRouter([
@@ -407,9 +408,8 @@ function App() {
           {isOppenFullScreenPanel.model === "Add New Sub Category" && (
             <AddSubCategory />
           )}
-          {isOppenFullScreenPanel.model === "Add New Address" && (
-            <AddAddress  />
-          )}
+          {isOppenFullScreenPanel.model === "Add New Address" && (<AddAddress  />)}
+          {isOppenFullScreenPanel.model === "Edit Category" && (<EditCategory  />)}
         </Dialog>
         <Toaster />
       </myContext.Provider>

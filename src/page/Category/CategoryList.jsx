@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import { IoMdAdd } from "react-icons/io";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,18 +16,24 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { FaRegEye } from "react-icons/fa";
 import { GoTrash } from "react-icons/go";
 
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import ProgressBar from "../../Component/ProgressBar/ProgressBar";
-import SearchBox from "../../Component/SearchBox/SearchBox";
 import { myContext } from "../../App";
+import { deleteData, fetchDataFromApi } from "../../utils/api";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const CategoryList = () => {
+  const [categoryFilterVal, setCategoryFilterVal] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [categoryFilterVal, setCategoryFilterVal] = useState("");
+
+  const [catData, setCatData] = useState([]);
 
   const context = useContext(myContext);
+
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      setCatData(res?.data?.data);
+    });
+  }, [context?.isOppenFullScreenPanel]);
 
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
@@ -37,6 +42,14 @@ const CategoryList = () => {
   };
   const handleChangeCatFilter = (event) => {
     setCategoryFilterVal(event.target.value);
+  };
+
+  const deletCat = (id) => {
+    deleteData(`/api/category/${id}`).then((res) => {
+      fetchDataFromApi("/api/category").then((res) => {
+        setCatData(res?.data?.data);
+      });
+    }); 
   };
 
   const columns = [
@@ -94,59 +107,75 @@ const CategoryList = () => {
               </TableHead>
 
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Checkbox {...label} size="small" />
-                  </TableCell>
+                {catData?.length !== 0 &&
+                  catData?.map((item, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell>
+                          <Checkbox {...label} size="small" />
+                        </TableCell>
 
-                  <TableCell width={100}>
-                    <div className="flex items-center gap-4 w-[80px]">
-                      <div className="img w-full rounded-md overflow-hidden group">
-                        <Link to={`/product/1`}>
-                          <img
-                            src="https://serviceapi.spicezgold.com/download/1755610847575_file_1734525204708_fash.png"
-                            alt="Women Wide Leg Jeans"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-all"
-                          />
-                        </Link>
-                      </div>
-                    </div>
-                  </TableCell>
-                   <TableCell width={100}>
-                    Fashions
+                        <TableCell width={100}>
+                          <div className="flex items-center gap-4 w-[80px]">
+                            <div className="img w-full rounded-md overflow-hidden group">
+                              <Link to="/product/12587" data-discover="true">
+                                <LazyLoadImage
+                                  alt={"image"}
+                                  effect="blur"
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-all"
+                                  src={item.images[0]}
+                                />
+                              </Link>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell width={100}>{item.name}</TableCell>
 
-                   </TableCell>
-
-                  <TableCell width={100}>
-                    <div className="flex items-center gap-1">
-                      <Tooltip title="Edit Product" placement="top">
-                        <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                          <AiOutlineEdit
-                            size={18}
-                            className="text-[rgba(0,0,0,0.7)]"
-                          />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="View Product" placement="top">
-                        <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                          <FaRegEye
-                            size={18}
-                            className="text-[rgba(0,0,0,0.7)]"
-                          />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Remove Product" placement="top">
-                        <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                          <GoTrash
-                            size={18}
-                            className="text-[rgba(0,0,0,0.7)]"
-                          />
-                        </Button>
-                      </Tooltip>
-                    </div>
-                  </TableCell>
-                </TableRow>                
-
+                        <TableCell width={100}>
+                          <div className="flex items-center gap-1">
+                            <Tooltip title="Edit Product" placement="top">
+                              <Button
+                                className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                                onClick={() =>
+                                  context.setIsOppenFullScreenPanel({
+                                    open: true,
+                                    model: "Edit Category",
+                                    id: item?._id,
+                                  })
+                                }
+                              >
+                                <AiOutlineEdit
+                                  size={18}
+                                  className="text-[rgba(0,0,0,0.7)]"
+                                />
+                              </Button>
+                            </Tooltip>
+                            {/* <Tooltip title="View Product" placement="top">
+                              <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
+                                <FaRegEye
+                                  size={18}
+                                  className="text-[rgba(0,0,0,0.7)]"
+                                />
+                              </Button>
+                            </Tooltip> */}
+                            <Tooltip title="Remove Product" placement="top">
+                              <Button
+                                className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                                onClick={() => {
+                                  deletCat(item?._id);
+                                }}
+                              >
+                                <GoTrash
+                                  size={18}
+                                  className="text-[rgba(0,0,0,0.7)]"
+                                />
+                              </Button>
+                            </Tooltip>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>
