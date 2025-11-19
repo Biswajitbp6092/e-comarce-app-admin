@@ -45,11 +45,12 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState(null);
-   const [address, setAddress] = useState([]);
+  const [address, setAddress] = useState([]);
+  const [catData, setCatData] = useState([]);
 
   const [isOppenFullScreenPanel, setIsOppenFullScreenPanel] = useState({
     open: false,
-    id:"",
+    id: "",
   });
 
   const router = createBrowserRouter([
@@ -341,7 +342,7 @@ function App() {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             openAlartBox("Error", "your Sesion is closed please login again");
-            window.location.href="/login"
+            window.location.href = "/login";
           }
         }
       });
@@ -349,6 +350,16 @@ function App() {
       setIsLogin(false);
     }
   }, [isLogin]);
+
+  useEffect(() => {
+    getCat();
+  }, []);
+
+  const getCat = () => {
+    fetchDataFromApi("/api/category").then((res) => {
+      setCatData(res?.data?.data);
+    });
+  };
 
   const values = {
     isSidebarOpen,
@@ -361,7 +372,10 @@ function App() {
     userData,
     setUserData,
     setAddress,
-    address
+    address,
+    catData,
+    setCatData,
+    getCat
   };
 
   return (
@@ -408,8 +422,8 @@ function App() {
           {isOppenFullScreenPanel.model === "Add New Sub Category" && (
             <AddSubCategory />
           )}
-          {isOppenFullScreenPanel.model === "Add New Address" && (<AddAddress  />)}
-          {isOppenFullScreenPanel.model === "Edit Category" && (<EditCategory  />)}
+          {isOppenFullScreenPanel.model === "Add New Address" && <AddAddress />}
+          {isOppenFullScreenPanel.model === "Edit Category" && <EditCategory />}
         </Dialog>
         <Toaster />
       </myContext.Provider>

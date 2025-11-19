@@ -64,15 +64,13 @@ const AddCategory = () => {
       return false;
     }
 
-    postData(`/api/category/create`, formFields).then((res) => {
-      console.log(res);
-     
+    postData(`/api/category/create`, formFields).then((res) => {     
        setTimeout(()=>{
         setIsLoading(false);
         context.setIsOppenFullScreenPanel({
           open: false,
         });
-       },1500)
+       },2500)
     });
   };
 
