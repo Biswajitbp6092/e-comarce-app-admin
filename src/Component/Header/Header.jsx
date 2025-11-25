@@ -15,6 +15,25 @@ import Divider from "@mui/material/Divider";
 import { myContext } from "../../App";
 import { Link } from "react-router-dom";
 import { fetchDataFromApi } from "../../utils/api";
+import AddProducts from "../AddProducts/AddProducts";
+import AddHomeSlide from "../../page/HomeSliderBanner/AddHomeSlide";
+import AddCategory from "../../page/Category/AddCategory";
+import AddSubCategory from "../../page/Category/AddSubCategory";
+import AddAddress from "../../page/AddAddress/AddAddress";
+import EditCategory from "../../page/Category/EditCategory";
+
+
+import Dialog from "@mui/material/Dialog";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { IoClose } from "react-icons/io5";
+import Slide from "@mui/material/Slide";
+import EditProducts from "../AddProducts/EditProducts";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -55,6 +74,7 @@ const Header = () => {
   };
 
   return (
+    <>
     <header
       className={`w-full h-[auto] py-2 ${
         context.isSidebarOpen === true ? "pl-74" : "pl-5"
@@ -169,6 +189,43 @@ const Header = () => {
         )}
       </div>
     </header>
+
+    <Dialog
+          fullScreen
+          open={context?.isOppenFullScreenPanel.open}
+          onClose={() =>
+            context?.setIsOppenFullScreenPanel({
+              open: false,
+            })
+          }
+          slots={{
+            transition: Transition,
+          }}
+        >
+          <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={() => context?.setIsOppenFullScreenPanel({ open: false })}
+                aria-label="close"
+              >
+                <IoClose className="text-gray-800" />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                <span className="text-gray-800">{context?.isOppenFullScreenPanel.model}</span>
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          {context?.isOppenFullScreenPanel.model === "Add Product" && <AddProducts />}
+          {context?.isOppenFullScreenPanel.model === "Add Home Slider" && (<AddHomeSlide />)}
+          {context?.isOppenFullScreenPanel.model === "Add New Category" && (<AddCategory />)}
+          {context?.isOppenFullScreenPanel.model === "Add New Sub Category" && (<AddSubCategory />)}
+          {context?.isOppenFullScreenPanel.model === "Add New Address" && <AddAddress />}
+          {context?.isOppenFullScreenPanel.model === "Edit Category" && <EditCategory />}
+          {context?.isOppenFullScreenPanel.model === "Edit Products" && <EditProducts />}
+        </Dialog>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { IoMdAdd } from "react-icons/io";
 
@@ -23,6 +23,9 @@ import ProgressBar from "../../Component/ProgressBar/ProgressBar";
 import SearchBox from "../../Component/SearchBox/SearchBox";
 import { myContext } from "../../App";
 import Modal from "@mui/material/Modal";
+import { deleteData, fetchDataFromApi } from "../../utils/api";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const columns = [
   { id: "product", label: "PRODUCT", minWidth: 170 },
@@ -32,349 +35,46 @@ const columns = [
   { id: "sales", label: "SALES", minWidth: 170, align: "center" },
   { id: "action", label: "ACTION", minWidth: 170, align: "center" },
 ];
-const rows = [
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-  {
-    image:
-      "https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg",
-    name: "Women Wide Leg High-Rise Light Fade Stretchable Jeans",
-    brand: "Flying Machine",
-    category: "Fashion",
-    subcategory: "Women",
-    oldPrice: "$58.00",
-    price: "$48.00",
-    sales: 234,
-    progress: 30,
-  },
-];
+
 const Products = () => {
-  const [page, setPage] = React.useState(0);
+  const [categoryFilterVal, setCategoryFilterVal] = useState("");
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [productData, setProductData] = useState([]);
 
   const context = useContext(myContext);
 
-  const handleChangePage = (event, newPage) => setPage(newPage);
+  useEffect(() => {
+    getProducts();
+  }, [context?.isOppenFullScreenPanel]);
+
+  const getProducts = async () => {
+    fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+      if (res?.error !== false) {
+        setProductData(res?.data?.products);
+      }
+    });
+  };
+  const handleChangeCatFilter = (event) => {
+    setCategoryFilterVal(event.target.value);
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const [categoryFilterVal, setCategoryFilterVal] = useState("");
-
-  const handleChangeCatFilter = (event) => {
-    setCategoryFilterVal(event.target.value);
+  const deleteProduct = (id) => {
+    deleteData(`/api/product/${id}`).then((res) => {
+      getProducts();
+      context.openAlartBox("Sucess", "Product Deleted");
+    });
   };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-2">
@@ -386,7 +86,17 @@ const Products = () => {
           <Button className="btn !bg-green-600 !text-white btn-sm">
             Export
           </Button>
-          <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add Product'})} className="btn-blue !text-white btn-sm">Add Product</Button>
+          <Button
+            onClick={() =>
+              context.setIsOppenFullScreenPanel({
+                open: true,
+                model: "Add Product",
+              })
+            }
+            className="btn-blue !text-white btn-sm"
+          >
+            Add Product
+          </Button>
         </div>
       </div>
 
@@ -404,7 +114,9 @@ const Products = () => {
                 onChange={handleChangeCatFilter}
                 label="Category"
               >
-                <MenuItem value=""><em>None</em></MenuItem>
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
                 <MenuItem value={10}>Man</MenuItem>
                 <MenuItem value={20}>Woman</MenuItem>
                 <MenuItem value={30}>KIds</MenuItem>
@@ -436,94 +148,129 @@ const Products = () => {
               </TableHead>
 
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id} hover>
-                    <TableCell padding="checkbox">
-                      <Checkbox size="small" />
-                    </TableCell>
+                {productData?.length !== 0 &&
+                  productData
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    ?.map((product, index) => {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell style={{ minWidth: columns.minWidth }}>
+                            <Checkbox size="small" />
+                          </TableCell>
 
-                    {/* Product */}
-                    <TableCell>
-                      <div className="flex items-center gap-4 w-[300px]">
-                        <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
-                          <Link to={`/product/${row.id}`}>
-                            <img
-                              src={row.image}
-                              alt={row.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-all"
-                            />
-                          </Link>
-                        </div>
-                        <div className="info w-[75%]">
-                          <h3 className="font-[600] text-[12px] leading-4 hover:text-[#3872fa]">
-                            <Link to={`/product/${row.id}`}>{row.name}</Link>
-                          </h3>
-                          <span className="text-[12px]">{row.brand}</span>
-                        </div>
-                      </div>
-                    </TableCell>
+                          <TableCell style={{ minWidth: columns.minWidth }}>
+                            <div className="flex items-center gap-4 w-[300px]">
+                              <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                                <Link
+                                  to={`/product/${product?._id}`}
+                                  data-discover="true"
+                                >
+                                  <LazyLoadImage
+                                    alt={"image"}
+                                    effect="blur"
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-all"
+                                    src={product?.images[0]}
+                                  />
+                                </Link>
+                              </div>
+                              <div className="info w-[75%]">
+                                <h3 className="font-[600] text-[12px] leading-4 hover:text-[#3872fa]">
+                                  <Link to={`/product/${product?._id}`}>
+                                    {product?.name}
+                                  </Link>
+                                </h3>
+                                <span className="text-[12px]">
+                                  {product?.brand}
+                                </span>
+                              </div>
+                            </div>
+                          </TableCell>
 
-                    {/* Category */}
-                    <TableCell>{row.category}</TableCell>
+                          <TableCell style={{ minWidth: columns.minWidth }}>
+                            {product?.catName}
+                          </TableCell>
 
-                    {/* Subcategory */}
-                    <TableCell>{row.subcategory}</TableCell>
+                          <TableCell style={{ minWidth: columns.minWidth }}>
+                            {product?.subCat}
+                          </TableCell>
 
-                    {/* Price */}
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
-                          {row.oldPrice}
-                        </span>
-                        <span className="price text-[#3872fa] text-[14px] font-[600]">
-                          {row.price}
-                        </span>
-                      </div>
-                    </TableCell>
+                          <TableCell style={{ minWidth: columns.minWidth }}>
+                            <div className="flex flex-col gap-1">
+                              <span className="price text-[#3872fa] text-[14px] font-[600]">
+                                &#x20b9; {product.price}
+                              </span>
+                              <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
+                                &#x20b9; {product?.oldPrice}
+                              </span>
+                            </div>
+                          </TableCell>
 
-                    {/* Sales */}
-                    <TableCell align="center">
-                      <div className="flex flex-col items-center justify-center">
-                        <p className="text-[14px] font-[600] mb-1">
-                          {row.sales} Sale
-                        </p>
-                        <div className="w-full max-w-[100px]">
-                          <ProgressBar value={row.progress} type="success" />
-                        </div>
-                      </div>
-                    </TableCell>
+                          <TableCell
+                            style={{ minWidth: columns.minWidth }}
+                            align="center"
+                          >
+                            <div className="flex flex-col items-center justify-center">
+                              <p className="text-[14px] font-[600] mb-1">
+                                {product.sale} Sale
+                              </p>
+                              <div className="w-full max-w-[100px]">
+                                {/* <ProgressBar
+                                value={row.progress}
+                                type="success"
+                              /> */}
+                              </div>
+                            </div>
+                          </TableCell>
 
-                    {/* Actions */}
-                    <TableCell align="center">
-                      <div className="flex items-center justify-center gap-1">
-                        <Tooltip title="Edit Product" placement="top">
-                          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                            <AiOutlineEdit
-                              size={18}
-                              className="text-[rgba(0,0,0,0.7)]"
-                            />
-                          </Button>
-                        </Tooltip>
-                        <Tooltip title="View Product" placement="top">
-                          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                            <FaRegEye
-                              size={18}
-                              className="text-[rgba(0,0,0,0.7)]"
-                            />
-                          </Button>
-                        </Tooltip>
-                        <Tooltip title="Remove Product" placement="top">
-                          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                            <GoTrash
-                              size={18}
-                              className="text-[rgba(0,0,0,0.7)]"
-                            />
-                          </Button>
-                        </Tooltip>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <TableCell
+                            style={{ minWidth: columns.minWidth }}
+                            align="center"
+                          >
+                            <div className="flex items-center justify-center gap-1">
+                              <Tooltip title="Edit Product" placement="top">
+                                <Button
+                                  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                                  onClick={() =>
+                                    context.setIsOppenFullScreenPanel({
+                                      open: true,
+                                      model: "Edit Products",
+                                      id:product?._id,
+                                    })
+                                  }
+                                >
+                                  <AiOutlineEdit
+                                    size={18}
+                                    className="text-[rgba(0,0,0,0.7)]"
+                                  />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip title="View Product" placement="top">
+                                <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
+                                  <FaRegEye
+                                    size={18}
+                                    className="text-[rgba(0,0,0,0.7)]"
+                                  />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip title="Remove Product" placement="top">
+                                <Button
+                                  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                                  onClick={() => deleteProduct(product?._id)}
+                                >
+                                  <GoTrash
+                                    size={18}
+                                    className="text-[rgba(0,0,0,0.7)]"
+                                  />
+                                </Button>
+                              </Tooltip>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
               </TableBody>
             </Table>
           </TableContainer>
@@ -531,7 +278,7 @@ const Products = () => {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
+            count={productData?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

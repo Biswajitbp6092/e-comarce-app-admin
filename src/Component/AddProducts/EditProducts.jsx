@@ -9,11 +9,11 @@ import Button from "@mui/material/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { myContext } from "../../App";
-import { deleteImages, postData } from "../../utils/api";
+import { deleteImages, editData, fetchDataFromApi, postData } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const AddProducts = () => {
+const EditProducts = () => {
   const [formFields, setFormFields] = useState({
     name: "",
     description: "",
@@ -50,6 +50,48 @@ const AddProducts = () => {
 
   const context = useContext(myContext);
   const navigate = useNavigate();
+
+ useEffect(() => {fetchDataFromApi(`/api/product/${context?.isOppenFullScreenPanel?.id}`).then((res) => {
+      const p = res?.data?.product;            
+      setFormFields({
+        name: p?.name || "",
+        description: p?.description || "",
+        images: p?.images || [],
+        brand: p?.brand || "",
+        price: p?.price || "",
+        oldPrice: p?.oldPrice || "",
+        category: p?.category || "",
+        catName: p?.catName || "",
+        catId: p?.catId || "",
+        subCatId: p?.subCatId || "",
+        subCat: p?.subCat || "",
+        thirdSubCat: p?.thirdSubCat || "",
+        thirdSubCatId: p?.thirdSubCatId || "",
+        countInStock: p?.countInStock || "",
+        rating: p?.rating || "",
+        isFeatured: p?.isFeatured || false,
+        discount: p?.discount || "",
+        productRam: p?.productRam || [],
+        size: p?.size || [],
+        productWeight: p?.productWeight || [],
+      });
+
+      // DROPDOWN AUTO SELECT
+      setProductCat(p?.catId || "");
+      setProductSubCat(p?.subCatId || "");
+      setProductThirtLavelCat(p?.thirdSubCatId || "");
+      setProductFeatured(p?.isFeatured);
+
+      // MULTIPLE ITEMS
+      setProductRams(p?.productRam || []);
+      setProductSize(p?.size || []);
+      setProductWeight(p?.productWeight || []);
+
+      // IMAGE PREVIEW SET
+      setPreviews(p?.images || []);
+    });
+}, []);
+
 
   const handleChangeProductCat = (event) => {
     setProductCat(event.target.value);
@@ -198,9 +240,9 @@ const AddProducts = () => {
 
     setIsLoading(true);
 
-    postData("/api/product/create", formFields).then((res) => {
-      if (res?.error === false) {
-        context.openAlartBox("Sucess", res?.message);
+    editData(`/api/product/updateProducts/${context?.isOppenFullScreenPanel?.id}`, formFields).then((res) => {
+      if (res?.data?.error === false) {
+        context.openAlartBox("Sucess", res?.data?.message);
         setTimeout(() => {
           setIsLoading(false);
           context.setIsOppenFullScreenPanel({
@@ -210,7 +252,7 @@ const AddProducts = () => {
         }, 1000);
       } else {
         setIsLoading(false);
-        context.openAlartBox("Error", res?.message);
+        context.openAlartBox("Error", res?.data?.message);
       }
     });
   };
@@ -268,6 +310,7 @@ const AddProducts = () => {
                     return (
                       <MenuItem
                         value={cat?._id}
+                        key={index}
                         onClick={() => selectCatByname(cat?.name)}
                       >
                         {cat?.name}
@@ -299,6 +342,7 @@ const AddProducts = () => {
                         return (
                           <MenuItem
                             value={subCat?._id}
+                            key={index}
                             onClick={() => selectSubCatByname(subCat?.name)}
                           >
                             {subCat?.name}
@@ -502,9 +546,8 @@ const AddProducts = () => {
                 Product Size
               </h3>
               <Rating
-                name="half-rating"
-                defaultValue={1}
-                precision={0.5}
+                name="rating"
+                value={formFields.rating}
                 onChange={onChangeRating}
               />
             </div>
@@ -560,4 +603,4 @@ const AddProducts = () => {
   );
 };
 
-export default AddProducts;
+export default EditProducts;

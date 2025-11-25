@@ -7,6 +7,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { deleteImages, postData } from "../../utils/api";
 import { myContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
   const [formFields, setFormFields] = useState({
@@ -18,6 +19,7 @@ const AddCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useContext(myContext);
+  const navigate = useNavigate();
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -44,7 +46,7 @@ const AddCategory = () => {
       setPreviews([]);
       setTimeout(() => {
         setPreviews(imageArr);
-        formFields.images = previewsArr;
+        formFields.images = imageArr;
       }, 100);
     });
   };
@@ -64,13 +66,15 @@ const AddCategory = () => {
       return false;
     }
 
-    postData(`/api/category/create`, formFields).then((res) => {     
-       setTimeout(()=>{
+    postData(`/api/category/create`, formFields).then((res) => {
+      setTimeout(() => {
         setIsLoading(false);
         context.setIsOppenFullScreenPanel({
           open: false,
         });
-       },2500)
+        context?.getCat();
+        navigate("/category/list");
+      }, 2500);
     });
   };
 
