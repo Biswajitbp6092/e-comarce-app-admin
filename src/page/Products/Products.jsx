@@ -37,10 +37,12 @@ const columns = [
 ];
 
 const Products = () => {
-  const [categoryFilterVal, setCategoryFilterVal] = useState("");
+  const [productCat, setProductCat] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [productData, setProductData] = useState([]);
+  const [productSubCat, setProductSubCat] = useState("");
+  const [productThirtLavelCat, setProductThirtLavelCat] = useState("");
 
   const context = useContext(myContext);
 
@@ -55,8 +57,36 @@ const Products = () => {
       }
     });
   };
-  const handleChangeCatFilter = (event) => {
-    setCategoryFilterVal(event.target.value);
+  const handleChangeProductCat = (event) => {
+    setProductCat(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductByCatId/${event.target.value}`
+    ).then((res) => {
+      if (res?.error !== false) {
+        setProductData(res?.data?.products);
+      }
+    });
+  };
+  const handleChangeProductSubCat = (event) => {
+    setProductSubCat(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductBySubCatId/${event.target.value}`
+    ).then((res) => {
+      if (res?.error !== false) {
+        setProductData(res?.data?.products);
+      }
+    });
+  };
+
+  const handleChangeProductThirtLavelCat = (event) => {
+    setProductThirtLavelCat(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductByThirdLavelCat/${event.target.value}`
+    ).then((res) => {
+      if (res?.error !== false) {
+        setProductData(res?.data?.products);
+      }
+    });
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -78,10 +108,7 @@ const Products = () => {
   return (
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
-          Products{" "}
-          <span className="font-[400] text-[14px]">(MUI CSS Table)</span>
-        </h2>
+        <h2 className="text-[18px] font-[600]">Products </h2>
         <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
           <Button className="btn !bg-green-600 !text-white btn-sm">
             Export
@@ -102,27 +129,97 @@ const Products = () => {
 
       <section>
         <div className="card my-4 pt-5 shadow-md sm:rounded-lg bg-white">
-          <div className="flex items-center w-full px-5 justify-between">
+          <div className="flex items-center w-full px-5 justify-between gap-5">
             <div className="col w-[20%]">
               <h4 className="font-[600] text-[13px] mb-2">Category By</h4>
-              <Select
-                className="w-full"
-                size="small"
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={categoryFilterVal}
-                onChange={handleChangeCatFilter}
-                label="Category"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Man</MenuItem>
-                <MenuItem value={20}>Woman</MenuItem>
-                <MenuItem value={30}>KIds</MenuItem>
-              </Select>
+              {context?.catData?.length !== 0 && (
+                <Select
+                  style={{ zoom: "80%" }}
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productCat}
+                  label="Category"
+                  onChange={handleChangeProductCat}
+                >
+                  {context?.catData?.map((cat, index) => {
+                    return (
+                      <MenuItem value={cat?._id} key={index}>
+                        {cat?.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
             </div>
-            <div className="col w-[20%] ml-auto">
+
+            <div className="col w-[20%]">
+              <h4 className="font-[600] text-[13px] mb-2">Sub Category By</h4>
+              {context?.catData?.length !== 0 && (
+                <Select
+                  style={{ zoom: "80%" }}
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productSubCat}
+                  label="Sub Category"
+                  onChange={handleChangeProductSubCat}
+                >
+                  {context?.catData?.map((cat, index) => {
+                    return (
+                      cat?.children?.length !== 0 &&
+                      cat?.children?.map((subCat, index_) => {
+                        return (
+                          <MenuItem value={subCat?._id}>
+                            {subCat?.name}
+                          </MenuItem>
+                        );
+                      })
+                    );
+                  })}
+                </Select>
+              )}
+            </div>
+
+            <div className="col w-[20%]">
+              <h4 className="font-[600] text-[13px] mb-2">
+                Third Lavel Category By
+              </h4>
+              {context?.catData?.length !== 0 && (
+                <Select
+                  style={{ zoom: "80%" }}
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productThirtLavelCat}
+                  label="Third Lavel Sub Category"
+                  onChange={handleChangeProductThirtLavelCat}
+                >
+                  {context?.catData?.map((cat) => {
+                    return (
+                      cat?.children?.length !== 0 &&
+                      cat?.children?.map((subCat) => {
+                        return (
+                          subCat?.children?.length !== 0 &&
+                          subCat?.children?.map((thirlavelCat, index) => {
+                            return (
+                              <MenuItem key={index} value={thirlavelCat?._id}>
+                                {thirlavelCat?.name}
+                              </MenuItem>
+                            );
+                          })
+                        );
+                      })
+                    );
+                  })}
+                </Select>
+              )}
+            </div>
+
+            <div className="col w-[20%] ml-auto mt-5">
               <SearchBox />
             </div>
           </div>
@@ -154,6 +251,7 @@ const Products = () => {
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
                     )
+                    ?.reverse()
                     ?.map((product, index) => {
                       return (
                         <TableRow key={index}>
@@ -237,7 +335,7 @@ const Products = () => {
                                     context.setIsOppenFullScreenPanel({
                                       open: true,
                                       model: "Edit Products",
-                                      id:product?._id,
+                                      id: product?._id,
                                     })
                                   }
                                 >
@@ -248,12 +346,14 @@ const Products = () => {
                                 </Button>
                               </Tooltip>
                               <Tooltip title="View Product" placement="top">
-                                <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                                  <FaRegEye
-                                    size={18}
-                                    className="text-[rgba(0,0,0,0.7)]"
-                                  />
-                                </Button>
+                                <Link to={`/product/${product?._id}`}>
+                                  <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
+                                    <FaRegEye
+                                      size={18}
+                                      className="text-[rgba(0,0,0,0.7)]"
+                                    />
+                                  </Button>
+                                </Link>
                               </Tooltip>
                               <Tooltip title="Remove Product" placement="top">
                                 <Button

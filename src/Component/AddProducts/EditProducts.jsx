@@ -9,7 +9,12 @@ import Button from "@mui/material/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { myContext } from "../../App";
-import { deleteImages, editData, fetchDataFromApi, postData } from "../../utils/api";
+import {
+  deleteImages,
+  editData,
+  fetchDataFromApi,
+  postData,
+} from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -51,8 +56,11 @@ const EditProducts = () => {
   const context = useContext(myContext);
   const navigate = useNavigate();
 
- useEffect(() => {fetchDataFromApi(`/api/product/${context?.isOppenFullScreenPanel?.id}`).then((res) => {
-      const p = res?.data?.product;            
+  useEffect(() => {
+    fetchDataFromApi(
+      `/api/product/${context?.isOppenFullScreenPanel?.id}`
+    ).then((res) => {
+      const p = res?.data?.product;
       setFormFields({
         name: p?.name || "",
         description: p?.description || "",
@@ -90,8 +98,7 @@ const EditProducts = () => {
       // IMAGE PREVIEW SET
       setPreviews(p?.images || []);
     });
-}, []);
-
+  }, []);
 
   const handleChangeProductCat = (event) => {
     setProductCat(event.target.value);
@@ -165,8 +172,15 @@ const EditProducts = () => {
   };
 
   const setPreviewsFun = (previewsArr) => {
-    setPreviews(previewsArr);
-    formFields.images = previewsArr;
+    const imgArr = previews;
+    for (let i = 0; i < previewsArr.length; i++) {
+      imgArr.push(previewsArr[i]);
+    }
+    setPreviews([]);
+    setTimeout(() => {
+      setPreviews(imgArr);
+      formFields.images = imgArr;
+    }, 10);
   };
 
   const removeImg = (image, index) => {
@@ -240,7 +254,10 @@ const EditProducts = () => {
 
     setIsLoading(true);
 
-    editData(`/api/product/updateProducts/${context?.isOppenFullScreenPanel?.id}`, formFields).then((res) => {
+    editData(
+      `/api/product/updateProducts/${context?.isOppenFullScreenPanel?.id}`,
+      formFields
+    ).then((res) => {
       if (res?.data?.error === false) {
         context.openAlartBox("Sucess", res?.data?.message);
         setTimeout(() => {
