@@ -83,20 +83,18 @@ const CategoryList = () => {
       </div>
 
       <section>
-        <div className="card my-4 pt-5 shadow-md sm:rounded-lg bg-white">
+        <div className="card my-4 pt-0 shadow-md sm:rounded-lg bg-white">
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow>
-                  <TableCell width={60}>
-                    <Checkbox {...label} size="small" />
-                  </TableCell>
-
+                <TableRow >
                   {columns.map((column) => (
                     <TableCell
                       width={column.minWidth}
                       key={column.id}
                       align={column.align}
+                      className="!bg-[#cfcfcf] !pl-26"
+                     
                     >
                       {column.label}
                     </TableCell>
@@ -109,12 +107,8 @@ const CategoryList = () => {
                   context?.catData?.map((item, index) => {
                     return (
                       <TableRow key={index}>
-                        <TableCell>
-                          <Checkbox {...label} size="small" />
-                        </TableCell>
-
-                        <TableCell width={100}>
-                          <div className="flex items-center gap-4 w-[80px]">
+                        <TableCell width={100} className="!pl-26">
+                          <div className="flex items-center gap-4 w-[50px]">
                             <div className="img w-full rounded-md overflow-hidden group">
                               <Link to="/product/12587" data-discover="true">
                                 <LazyLoadImage
@@ -127,9 +121,9 @@ const CategoryList = () => {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell width={100}>{item.name}</TableCell>
+                        <TableCell width={100} className="!pl-26">{item.name}</TableCell>
 
-                        <TableCell width={100}>
+                        <TableCell width={100} className="!pl-26">
                           <div className="flex items-center gap-1">
                             <Tooltip title="Edit Product" placement="top">
                               <Button

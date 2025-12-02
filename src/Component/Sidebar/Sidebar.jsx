@@ -28,7 +28,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`sidebar fixed top-0 left-0 bg-[#fff] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4 
+        className={`sidebar fixed top-0 left-0 z-50 bg-[#fff] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4 
           w-[${context.isSidebarOpen === true ? "18%" : "0px"}]`}
       >
         <div className="py-2 w-full">
@@ -67,14 +67,22 @@ const Sidebar = () => {
               <ul className="w-full">
                 <li className="w-full">
                   <Link to="/homeslider/list">
-                  <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
-                    <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Home Banner List
-                  </Button>
+                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Home Banner List
+                    </Button>
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add Home Slider'})} className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button
+                    onClick={() =>
+                      context.setIsOppenFullScreenPanel({
+                        open: true,
+                        model: "Add Home Slider",
+                      })
+                    }
+                    className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
                     <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Add Home Banner Slide
                   </Button>
@@ -132,6 +140,27 @@ const Sidebar = () => {
                     <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Products Upload
                   </Button>
+
+                  <Link to="/product/add-rams">
+                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Add Products RAMS
+                    </Button>
+                  </Link>
+
+                  <Link to="/product/add-weight">
+                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Add Products Weight
+                    </Button>
+                  </Link>
+
+                  <Link to="/product/add-size">
+                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Add Products Size
+                    </Button>
+                  </Link>
                 </li>
               </ul>
             </Collapse>
@@ -165,7 +194,13 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add New Category'})} 
+                  <Button
+                    onClick={() =>
+                      context.setIsOppenFullScreenPanel({
+                        open: true,
+                        model: "Add New Category",
+                      })
+                    }
                     className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
                   >
                     <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
@@ -181,12 +216,18 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-           
-                    <Button onClick={()=>context.setIsOppenFullScreenPanel({open:true, model:'Add New Sub Category'})} className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
-                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                      Add a Sub Category
-                    </Button>
-                
+                  <Button
+                    onClick={() =>
+                      context.setIsOppenFullScreenPanel({
+                        open: true,
+                        model: "Add New Sub Category",
+                      })
+                    }
+                    className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
+                    <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                    Add a Sub Category
+                  </Button>
                 </li>
               </ul>
             </Collapse>
@@ -194,10 +235,10 @@ const Sidebar = () => {
 
           <li>
             <Link to="/orders">
-            <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]">
-              <IoBagCheck size={18} />
-              <span>Orders</span>
-            </Button>
+              <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]">
+                <IoBagCheck size={18} />
+                <span>Orders</span>
+              </Button>
             </Link>
           </li>
 

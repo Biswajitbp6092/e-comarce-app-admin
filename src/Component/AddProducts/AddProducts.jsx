@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { myContext } from "../../App";
-import { deleteImages, postData } from "../../utils/api";
+import { deleteImages, fetchDataFromApi, postData } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -40,8 +40,11 @@ const AddProducts = () => {
   const [productSubCat, setProductSubCat] = useState("");
   const [productFeatured, setProductFeatured] = useState("");
   const [productRams, setProductRams] = useState([]);
+  const [productRamsData, setProductRamsData] = useState([]);
   const [productWeight, setProductWeight] = useState([]);
+  const [productWeightData, setProductWeightData] = useState([]);
   const [productSize, setProductSize] = useState([]);
+  const [productSizeData, setProductSizeData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [productThirtLavelCat, setProductThirtLavelCat] = useState("");
@@ -50,6 +53,26 @@ const AddProducts = () => {
 
   const context = useContext(myContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchDataFromApi("/api/product/productRAMS/ramlist").then((res) => {
+      if (res?.data?.error === false) {
+        setProductRamsData(res?.data?.data);
+      }
+    });
+
+    fetchDataFromApi("/api/product/productWeight/Weightlist").then((res) => {
+      if (res?.data?.error === false) {
+        setProductWeightData(res?.data?.data);
+      }
+    });
+
+    fetchDataFromApi("/api/product/productSize/Sizelist").then((res) => {
+      if (res?.data?.error === false) {
+        setProductSizeData(res?.data?.data);
+      }
+    });
+  }, []);
 
   const handleChangeProductCat = (event) => {
     setProductCat(event.target.value);
@@ -197,6 +220,7 @@ const AddProducts = () => {
     }
 
     setIsLoading(true);
+   
 
     postData("/api/product/create", formFields).then((res) => {
       if (res?.error === false) {
@@ -441,60 +465,78 @@ const AddProducts = () => {
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product RAMS
               </h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productCatDropdown"
-                size="small"
-                className="w-full"
-                value={productRams}
-                label="Category"
-                onChange={handleChangeProductRams}
-              >
-                <MenuItem value={"4GB"}>4GB</MenuItem>
-                <MenuItem value={"6GB"}>6GB</MenuItem>
-                <MenuItem value={"8GB"}>8GB</MenuItem>
-              </Select>
+              {productRamsData?.length !== 0 && (
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productRams}
+                  label="Category"
+                  onChange={handleChangeProductRams}
+                >
+                  {productRamsData?.map((item, index) => {
+                    return (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
             </div>
 
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product Weight
               </h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productCatDropdown"
-                size="small"
-                className="w-full"
-                value={productWeight}
-                label="Category"
-                onChange={handleChangeProductWeight}
-              >
-                <MenuItem value={10}>2KG</MenuItem>
-                <MenuItem value={20}>4KG</MenuItem>
-                <MenuItem value={30}>5KG</MenuItem>
-              </Select>
+              {productWeightData?.length !== 0 && (
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productWeight}
+                  label="Category"
+                  onChange={handleChangeProductWeight}
+                >
+                  {productWeightData?.map((item, index) => {
+                    return (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
             </div>
 
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product Size
               </h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productCatDropdown"
-                size="small"
-                className="w-full"
-                value={productSize}
-                label="Category"
-                onChange={handleChangeProductSize}
-              >
-                <MenuItem value={"S"}>S</MenuItem>
-                <MenuItem value={"M"}>M</MenuItem>
-                <MenuItem value={"L"}>L</MenuItem>
-              </Select>
+              {productSizeData?.length !== 0 && (
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productCatDropdown"
+                  size="small"
+                  className="w-full"
+                  value={productSize}
+                  label="Category"
+                  onChange={handleChangeProductSize}
+                >
+                  {productSizeData?.map((item, index) => {
+                    return (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
             </div>
 
             <div className="col">
