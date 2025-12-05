@@ -56,7 +56,7 @@ const EditSubCatBox = (props) => {
       return false;
     }
     editData(`/api/category/${props?.id}`, formFields).then((res) => {
-      console.log(res);
+
       setTimeout(() => {
         // context.openAlartBox("Sucess", res?.data?.message);
         context.openAlartBox("Sucess", "category Updated Succesfuly");

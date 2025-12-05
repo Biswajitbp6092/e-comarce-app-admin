@@ -161,10 +161,10 @@ const Dashboard = () => {
           <h2 className="text-[18px] font-[600]">Recent Orders</h2>
         </div>
         <div className="relative overflow-x-auto mt-5 pb-5">
-          <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+          <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
               <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   &nbsp;
                 </th>
                 <th scope="col" className="px-6 py-3 whitespace-nowrap">
@@ -203,7 +203,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white border-b  dark:border-gray-700">
+              <tr className="bg-white border-b  dark:border-gray-700">
                 <td className="px-6 py-4 font-[500]">
                   {" "}
                   <Button
@@ -262,8 +262,8 @@ const Dashboard = () => {
                 <tr>
                   <td className="pl-20" colSpan={6}>
                     <div className="relative overflow-x-auto">
-                      <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+                      <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
                           <tr>
                             <th
                               scope="col"
@@ -304,7 +304,7 @@ const Dashboard = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr class="bg-white border-b  dark:border-gray-700">
+                          <tr className="bg-white border-b  dark:border-gray-700">
                             <td className="px-6 py-4 font-[500]">
                               <span className="text-gray-600">
                                 25dsfdscee5224fer5
@@ -327,7 +327,7 @@ const Dashboard = () => {
                             <td className="px-6 py-4 font-[500]">1500.00</td>
                           </tr>
 
-                          <tr class="bg-white border-b  dark:border-gray-700">
+                          <tr className="bg-white border-b  dark:border-gray-700">
                             <td className="px-6 py-4 font-[500]">
                               <span className="text-gray-600">
                                 25dsfdscee5224fer5
@@ -356,7 +356,7 @@ const Dashboard = () => {
                 </tr>
               )}
 
-              <tr class="bg-white border-b  dark:border-gray-700">
+              <tr className="bg-white border-b  dark:border-gray-700">
                 <td className="px-6 py-4 font-[500]">
                   {" "}
                   <Button
@@ -415,8 +415,8 @@ const Dashboard = () => {
                 <tr>
                   <td className="pl-20" colSpan={6}>
                     <div className="relative overflow-x-auto">
-                      <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+                      <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
                           <tr>
                             <th
                               scope="col"
@@ -457,7 +457,7 @@ const Dashboard = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr class="bg-white border-b  dark:border-gray-700">
+                          <tr className="bg-white border-b  dark:border-gray-700">
                             <td className="px-6 py-4 font-[500]">
                               <span className="text-gray-600">
                                 25dsfdscee5224fer5
@@ -480,7 +480,7 @@ const Dashboard = () => {
                             <td className="px-6 py-4 font-[500]">1500.00</td>
                           </tr>
 
-                          <tr class="bg-white border-b  dark:border-gray-700">
+                          <tr className="bg-white border-b  dark:border-gray-700">
                             <td className="px-6 py-4 font-[500]">
                               <span className="text-gray-600">
                                 25dsfdscee5224fer5

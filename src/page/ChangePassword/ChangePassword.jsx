@@ -58,7 +58,7 @@ const ChangePassword = () => {
     }
 
     postData(`/api/user/reset-password`, formFields).then((res) => {
-      console.log(res);
+    
       if (res?.error === false) {
         localStorage.removeItem("userEmail");
         localStorage.removeItem("actionType");
@@ -76,7 +76,7 @@ const ChangePassword = () => {
     <section className="bg-[#fff] w-full">
       <header className="w-full fixed top-0 left-0 px-4 py-3 flex items-center justify-between z-50">
         <Link to="/">
-          <img src="/logo.jpg" alt="" className="w-[200px]" />
+          <img src="/logo.ong" alt="" className="w-[200px]" />
         </Link>
         <div className="flex items-center gap-0">
           <NavLink to="/login" exact={true} activeClassName="isActive">
@@ -101,7 +101,7 @@ const ChangePassword = () => {
       />
       <div className="loginBox card w-[600px] h-auto pb-25 mx-auto pt-20 relative z-50">
         <div className="text-center">
-          <img src="/logo.jpg" alt="" className="m-auto" />
+          <img src="/logo.png" alt="" className="m-auto w-[180px]" />
         </div>
         <h1 className="text-center text-[35px] font-[800] mt-4">
           Welcome Back! <br />

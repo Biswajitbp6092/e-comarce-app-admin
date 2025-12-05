@@ -66,7 +66,7 @@ const VerifyAccount = () => {
     <section className="bg-[#fff] w-full h-[100vh]">
       <header className="w-full fixed top-0 left-0 px-4 py-3 flex items-center justify-between z-50">
         <Link to="/">
-          <img src="/logo.jpg" alt="" className="w-[200px]" />
+          <img src="/logo.png" alt="" className="w-[180px]" />
         </Link>
         <div className="flex items-center gap-0">
           <NavLink to="/login" exact={true} activeClassName="isActive">

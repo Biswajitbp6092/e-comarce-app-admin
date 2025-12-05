@@ -34,8 +34,8 @@ const columns = [
   { id: "product", label: "PRODUCT", minWidth: 140 },
   { id: "category", label: "CATEGORY", minWidth: 100, },
   { id: "subcategory", label: "SUB CATEGORY", minWidth: 140 },
-  { id: "thirdcategory", label: "THIRD CATEGORY", minWidth: 150 },
-  { id: "price", label: "PRICE", minWidth: 80 },
+  { id: "thirdcategory", label: "THIRD CATEGORY", minWidth: 140 },
+  { id: "price", label: "PRICE", minWidth: 100 },
   { id: "sales", label: "SALES", minWidth: 80, align: "center" },
   { id: "rating", label: "RATING", minWidth: 80, align: "center" },
   { id: "action", label: "ACTION", minWidth: 130, align: "center" },
@@ -440,6 +440,7 @@ const Products = () => {
                                   name="half-rating"
                                   size="small"
                                   defaultValue={product?.rating}
+                                  readOnly
                                 />
                               </p>
                             </div>

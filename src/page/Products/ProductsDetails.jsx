@@ -35,7 +35,7 @@ const ProductsDetails = () => {
 
   useEffect(() => {
     fetchDataFromApi(`/api/product/${id}`).then((res) => {
-      console.log(res);
+
       if (res?.error !== false) {
         setTimeout(() => {
           setProduct(res?.data?.product);

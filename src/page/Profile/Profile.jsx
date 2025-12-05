@@ -192,7 +192,7 @@ const Profile = () => {
       setPreviews([]);
       const files = e.target.files;
       setUploading(true);
-      console.log(files);
+  
 
       for (let i = 0; i < files.length; i++) {
         if (
@@ -217,10 +217,10 @@ const Profile = () => {
         uploadImage("/api/user/user-avatar", formData).then((res) => {
           setUploading(false);
           let avatar = [];
-          console.log(res?.data?.avatar);
+    
           avatar.push(res?.data?.avatar);
           setPreviews(avatar);
-          console.log(res);
+        
         });
       }
     } catch (error) {

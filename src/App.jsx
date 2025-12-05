@@ -30,6 +30,7 @@ import ProductsDetails from "./page/Products/ProductsDetails";
 import AddRams from "./page/Products/AddRams";
 import AddWeight from "./page/Products/AddWeight";
 import AddSize from "./page/Products/AddSize";
+import BannerV1List from "./page/Banners/BannerV1List";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -412,6 +413,34 @@ function App() {
                 } transition-all`}
               >
                 <AddSize />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
+
+     {
+      path: "/banner/list",
+      exact: true,
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sideBarWrapper ${
+                  isSidebarOpen === true ? "w-[18%]" : "w-[0px] opacity-1"
+                } transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 ${
+                  isSidebarOpen === false ? "w-[100%]" : "w-[82%]"
+                } transition-all`}
+              >
+                <BannerV1List />
               </div>
             </div>
           </section>

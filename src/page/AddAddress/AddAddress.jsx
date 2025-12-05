@@ -95,11 +95,11 @@ const AddAddress = () => {
       return false;
     }
 
-    console.log(formFields);
+   
     postData(`/api/address/add`, formFields, {
       withCredentials: true,
     }).then((res) => {
-      console.log(res);
+     
 
       if (res?.error !== true) {
         setIsLoading(false);

@@ -27,7 +27,7 @@ const EditCategory = () => {
   useEffect(() => {
     const id = context?.isOppenFullScreenPanel?.id;
     fetchDataFromApi(`/api/category/${id}`).then((res) => {
-      console.log(res);
+
       formFields.name = res?.data?.category?.name;
       setPreviews(res?.data?.category?.images);
     });

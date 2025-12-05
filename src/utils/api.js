@@ -107,15 +107,14 @@ export const deleteData = async (url) => {
   return res;
 };
 
-export const deleteMultipleData = async (url, ids) => {
-  const res = await axios.delete(apiUrl + url, {
+export const deleteMultipleData = async (url, data) => {
+  const params = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", 
     },
-    data: { ids },   // ekhane amra IDs body te pathacchi
-  });
+  };
 
-  return res.data;   // axios always returns response.data
+  const { res } = await axios.delete(apiUrl + url, data, params);
+  return res;
 };
-

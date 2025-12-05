@@ -61,8 +61,7 @@ const CategoryList = () => {
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-2">
         <h2 className="text-[18px] font-[600]">
-          Category List{" "}
-          <span className="font-[400] text-[14px]">(MUI CSS Table)</span>
+          Category List <span className="font-[400] text-[14px]"></span>
         </h2>
         <div className="col w-[30%] ml-auto flex items-center justify-end gap-3">
           <Button className="btn !bg-green-600 !text-white btn-sm">
@@ -87,14 +86,13 @@ const CategoryList = () => {
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow >
+                <TableRow>
                   {columns.map((column) => (
                     <TableCell
                       width={column.minWidth}
                       key={column.id}
                       align={column.align}
                       className="!bg-[#cfcfcf] !pl-26"
-                     
                     >
                       {column.label}
                     </TableCell>
@@ -121,7 +119,9 @@ const CategoryList = () => {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell width={100} className="!pl-26">{item.name}</TableCell>
+                        <TableCell width={100} className="!pl-26">
+                          {item.name}
+                        </TableCell>
 
                         <TableCell width={100} className="!pl-26">
                           <div className="flex items-center gap-1">
@@ -142,14 +142,7 @@ const CategoryList = () => {
                                 />
                               </Button>
                             </Tooltip>
-                            {/* <Tooltip title="View Product" placement="top">
-                              <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                                <FaRegEye
-                                  size={18}
-                                  className="text-[rgba(0,0,0,0.7)]"
-                                />
-                              </Button>
-                            </Tooltip> */}
+
                             <Tooltip title="Remove Product" placement="top">
                               <Button
                                 className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"

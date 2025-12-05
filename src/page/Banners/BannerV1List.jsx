@@ -24,7 +24,7 @@ const columns = [
 ];
 const label = { inputProps: { "aria-label": "select all" } };
 
-const HomeSliderBanner = () => {
+const BannerV1List = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -39,7 +39,7 @@ const HomeSliderBanner = () => {
   }, [context.isOppenFullScreenPanel]);
 
   const getData = () => {
-    fetchDataFromApi(`/api/homeSlides`).then((res) => {
+    fetchDataFromApi(`/api/bannerV1`).then((res) => {
       setSlideData(res?.data?.data);
     });
   };
@@ -51,8 +51,8 @@ const HomeSliderBanner = () => {
   const handleChangePage = (event, newPage) => setPage(newPage);
 
   const deleteSlide = (id) => {
-    deleteData(`/api/homeSlides/${id}`).then((res) => {
-      context.openAlartBox("Sucess", "slide Deleted");
+    deleteData(`/api/bannerV1/${id}`).then((res) => {
+      context.openAlartBox("Sucess", "Banner Deleted");
       getData();
       setIsLoading(false);
     });
@@ -62,19 +62,19 @@ const HomeSliderBanner = () => {
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-2">
         <h2 className="text-[18px] font-[600]">
-          Home Slider Banners <span className="font-[400] text-[14px]"></span>
+          Banners List <span className="font-[400] text-[14px]"></span>
         </h2>
         <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
           <Button
             onClick={() =>
               context.setIsOppenFullScreenPanel({
                 open: true,
-                model: "Add Home Slider",
+                model: "Add bannerV1",
               })
             }
             className="btn-blue !text-white btn-sm"
           >
-            Add Home Slider
+            Add Banner
           </Button>
         </div>
       </div>
@@ -101,7 +101,7 @@ const HomeSliderBanner = () => {
                 {slideData?.length !== 0 &&
                   slideData?.map((item, index) => {
                     return (
-                      <TableRow hover>
+                      <TableRow>
                         <TableCell width={300}>
                           <div className="flex items-center gap-4 w-[300px]">
                             <div className="img w-full rounded-md overflow-hidden group">
@@ -119,21 +119,23 @@ const HomeSliderBanner = () => {
                         <TableCell width={100}>
                           <div className="flex items-center gap-1">
                             <Tooltip title="Edit Product" placement="top">
-                              <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
+                              <Button
+                                className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                                onClick={() =>
+                                  context.setIsOppenFullScreenPanel({
+                                    open: true,
+                                    model: "Edit BannerV1",
+                                    id: item?._id,
+                                  })
+                                }
+                              >
                                 <AiOutlineEdit
                                   size={18}
                                   className="text-[rgba(0,0,0,0.7)]"
                                 />
                               </Button>
                             </Tooltip>
-                            {/* <Tooltip title="View Product" placement="top">
-                              <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                                <FaRegEye
-                                  size={18}
-                                  className="text-[rgba(0,0,0,0.7)]"
-                                />
-                              </Button>
-                            </Tooltip> */}
+
                             <Tooltip title="Remove Product" placement="top">
                               <Button
                                 className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
@@ -169,4 +171,4 @@ const HomeSliderBanner = () => {
   );
 };
 
-export default HomeSliderBanner;
+export default BannerV1List;

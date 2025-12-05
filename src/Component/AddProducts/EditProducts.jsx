@@ -18,6 +18,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
+import Switch from "@mui/material/Switch";
+const label = { inputProps: { "aria-label": "Switch demo" } };
+
 const EditProducts = () => {
   const [formFields, setFormFields] = useState({
     name: "",
@@ -40,6 +43,9 @@ const EditProducts = () => {
     productRam: [],
     size: [],
     productWeight: [],
+    bannerTitlename: "",
+    bannerimages: [],
+    isDisplayOnHomeBanner: false,
   });
   const [productCat, setProductCat] = useState("");
   const [productSubCat, setProductSubCat] = useState("");
@@ -55,6 +61,8 @@ const EditProducts = () => {
   const [productThirtLavelCat, setProductThirtLavelCat] = useState("");
 
   const [previews, setPreviews] = useState([]);
+  const [bannerPreviews, setBannerPreviews] = useState([]);
+  const [checkedSwitch, setCheckedSwitch] = useState(false);
 
   const context = useContext(myContext);
   const navigate = useNavigate();
@@ -103,6 +111,9 @@ const EditProducts = () => {
         productRam: p?.productRam || [],
         size: p?.size || [],
         productWeight: p?.productWeight || [],
+        bannerTitlename: p?.bannerTitlename || "",
+        bannerimages: p?.bannerimages || [],
+        isDisplayOnHomeBanner: p?.isDisplayOnHomeBanner,
       });
 
       // DROPDOWN AUTO SELECT
@@ -118,6 +129,8 @@ const EditProducts = () => {
 
       // IMAGE PREVIEW SET
       setPreviews(p?.images || []);
+      setBannerPreviews(p?.bannerimages || []);
+      setCheckedSwitch(p?.isDisplayOnHomeBanner)
     });
   }, []);
 
@@ -216,6 +229,37 @@ const EditProducts = () => {
         formFields.images = imageArr;
       }, 100);
     });
+  };
+
+  const setBannerImagesFun = (previewsArr) => {
+    const imgArr = bannerPreviews;
+    for (let i = 0; i < previewsArr.length; i++) {
+      imgArr.push(previewsArr[i]);
+    }
+    setBannerPreviews([]);
+    setTimeout(() => {
+      setBannerPreviews(imgArr);
+      formFields.bannerimages = imgArr;
+    }, 10);
+  };
+
+  const removeBannerImg = (image, index) => {
+    var imageArr = [];
+    imageArr = bannerPreviews;
+    deleteImages(`/api/category/deleteimage?img=${image}`).then((res) => {
+      imageArr.splice(index, 1);
+
+      setBannerPreviews([]);
+      setTimeout(() => {
+        setBannerPreviews(imageArr);
+        formFields.bannerimages = imageArr;
+      }, 100);
+    });
+  };
+
+  const handelChangeSwitch = (event) => {
+    setCheckedSwitch(event.target.checked);
+    formFields.isDisplayOnHomeBanner = event.target.checked;
   };
 
   const handelSubmit = (e) => {
@@ -635,6 +679,55 @@ const EditProducts = () => {
                 name="images"
                 url="/api/product/uploadImages"
                 setPreviewsFun={setPreviewsFun}
+              />
+            </div>
+          </div>
+
+          <div className="col w-full p-5 px-0">
+            <div className="shadow-md bg-white p-4 w-full">
+              <div className="flex items-center gap-8">
+                <h3 className="font-[700] text-[18px] mb-3">Banner & Images</h3>
+                <Switch
+                  {...label}
+                  onChange={handelChangeSwitch}
+                  checked={checkedSwitch}
+                />
+              </div>
+
+              <div className="grid grid-cols-7 gap-4">
+                {bannerPreviews?.length !== 0 &&
+                  bannerPreviews.map((image, index) => {
+                    return (
+                      <div key={index} className="uploadBoxWrapper relative">
+                        <span className="absolute w-[20px] h-[20px] rounded-full overflow-hidden bg-red-700 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer">
+                          <IoMdClose
+                            onClick={() => removeBannerImg(image, index)}
+                            className="text-white text-[17px]"
+                          />
+                        </span>
+
+                        <div className="uploadBox p-0 rounded-md overflow-hidden border border-dashed border-[rgba(0,0,0,0.3)] h-[150px] w-[100%] bg-gray-100 cursor-pointer hover:bg-gray-200 flex items-center justify-center flex-col relative">
+                          <img src={image} alt="images" className="w-100" />
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                <UploadBox
+                  multiple={true}
+                  name="bannerimages"
+                  url="/api/product/uploadBannerImages"
+                  setPreviewsFun={setBannerImagesFun}
+                />
+              </div>
+              <br />
+              <h3 className="font-[700] text-[18px] mb-3">Banner Title</h3>
+              <input
+                type="text"
+                className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3"
+                name="bannerTitlename"
+                value={formFields.bannerTitlename}
+                onChange={onChangeInput}
               />
             </div>
           </div>
