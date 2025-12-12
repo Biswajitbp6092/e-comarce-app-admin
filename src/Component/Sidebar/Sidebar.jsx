@@ -288,6 +288,51 @@ const Sidebar = () => {
           </li>
 
           <li>
+            <Button
+              onClick={() => isOpenSubMenu(6)}
+              className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]"
+            >
+              <CgProductHunt size={18} />
+              <span>Blogs</span>
+              <span className="ml-auto w-[30px] h-[30px] flex items-center justify-center">
+                <IoIosArrowDown
+                  size={18}
+                  className={`transition-all ${
+                    subMenuIndex === 6 ? "rotate-180" : ""
+                  }`}
+                />
+              </span>
+            </Button>
+
+            <Collapse isOpened={subMenuIndex === 6 ? true : false}>
+              <ul className="w-full">
+                <li className="w-full">
+                  <Link to="/blog/list">
+                    <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Blog List
+                    </Button>
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <Button
+                    onClick={() =>
+                      context.setIsOppenFullScreenPanel({
+                        open: true,
+                        model: "Add Blog",
+                      })
+                    }
+                    className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
+                    <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                    Add Blog
+                  </Button>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
+
+          <li>
             <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]">
               <MdLogout size={18} />
               <span>Logout</span>

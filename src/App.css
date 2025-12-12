@@ -69,3 +69,5 @@ input[type="text"]:disabled input[type="email"]:disabled{
 
 .swiper-button-prev::after, .swiper-button-next::after{font-size: 22px !important; color: #000;}
 .contentRight{padding-top: 80px !important;}
+
+.rsw-editor {min-height: 250px !important; background: #ffffff !important;}

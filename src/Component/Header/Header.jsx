@@ -31,6 +31,8 @@ import Slide from "@mui/material/Slide";
 import EditProducts from "../AddProducts/EditProducts";
 import AddBannerV1 from "../../page/Banners/AddBannerV1";
 import EditBannerV1 from "../../page/Banners/EditBannerV1";
+import AddBlog from "../../page/Blog/AddBlog";
+import EditBlog from "../../page/Blog/EditBlog";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -250,6 +252,8 @@ const Header = () => {
         {context?.isOppenFullScreenPanel.model === "Edit BannerV1" && (
           <EditBannerV1 />
         )}
+        {context?.isOppenFullScreenPanel.model === "Add Blog" && <AddBlog />}
+        {context?.isOppenFullScreenPanel.model === "Edit Blog" && <EditBlog />}
       </Dialog>
     </>
   );
