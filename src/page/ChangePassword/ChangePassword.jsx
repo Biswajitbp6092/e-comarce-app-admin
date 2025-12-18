@@ -168,8 +168,7 @@ const ChangePassword = () => {
           >
             {isLoading ? (
               <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
+                
               />
             ) : (
               "Change Password"

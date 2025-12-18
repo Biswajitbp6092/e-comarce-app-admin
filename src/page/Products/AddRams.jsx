@@ -102,7 +102,7 @@ const AddRams = () => {
         <form action="" className="form py-3 p-6" onSubmit={handelSubmit}>
           <div className="col mb-5">
             <h3 className="text-[14px] font-[500] mb-1 text-black">
-              Products RAMS 
+              Products RAMS
             </h3>
             <input
               type="text"
@@ -115,10 +115,7 @@ const AddRams = () => {
 
           <Button type="submit" className="btn-blue btn-lg w-full flex gap-2">
             {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
+              <CircularProgress />
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[25px] text-white" />

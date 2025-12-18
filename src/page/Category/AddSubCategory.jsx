@@ -120,7 +120,7 @@ const AddSubCategory = () => {
           open: false,
         });
         context?.getCat();
-        navigate("/subcategory/list")
+        navigate("/subcategory/list");
       }, 2500);
     });
   };
@@ -176,10 +176,7 @@ const AddSubCategory = () => {
         <div className="w-[250px]">
           <Button type="submit" className="btn-blue btn-lg w-full flex gap-2">
             {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
+              <CircularProgress />
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[25px] text-white" />
@@ -244,10 +241,7 @@ const AddSubCategory = () => {
         <div className="w-[250px]">
           <Button type="submit" className="btn-blue btn-lg w-full flex gap-2">
             {isLoading2 ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
+              <CircularProgress />
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[25px] text-white" />

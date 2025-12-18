@@ -29,7 +29,7 @@ const SignUp = () => {
     password: "",
   });
 
-  const context =useContext(myContext);
+  const context = useContext(myContext);
   const navigate = useNavigate();
 
   const onChangeInput = (e) => {
@@ -225,14 +225,7 @@ const SignUp = () => {
             disabled={!validValue}
             className="btn-blue btn-lg w-full"
           >
-            {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              "sign Up"
-            )}
+            {isLoading ? <CircularProgress /> : "sign Up"}
           </Button>
         </form>
       </div>

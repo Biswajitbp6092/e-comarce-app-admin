@@ -115,10 +115,7 @@ const AddSize = () => {
 
           <Button type="submit" className="btn-blue btn-lg w-full flex gap-2">
             {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
+              <CircularProgress />
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[25px] text-white" />

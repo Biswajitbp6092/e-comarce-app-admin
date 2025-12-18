@@ -27,7 +27,6 @@ const EditCategory = () => {
   useEffect(() => {
     const id = context?.isOppenFullScreenPanel?.id;
     fetchDataFromApi(`/api/category/${id}`).then((res) => {
-
       formFields.name = res?.data?.category?.name;
       setPreviews(res?.data?.category?.images);
     });
@@ -147,10 +146,7 @@ const EditCategory = () => {
         <div className="w-[250px]">
           <Button type="submit" className="btn-blue btn-lg w-full flex gap-2">
             {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
+              <CircularProgress />
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[25px] text-white" />

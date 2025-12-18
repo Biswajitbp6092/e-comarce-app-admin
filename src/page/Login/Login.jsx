@@ -242,14 +242,7 @@ const Login = () => {
             disabled={!validValue}
             className="btn-blue btn-lg w-full cursor-pointer"
           >
-            {isLoading ? (
-              <CircularProgress
-                color="inherit"
-                style={{ width: "20px", height: "20px" }}
-              />
-            ) : (
-              "Sign In"
-            )}
+            {isLoading ? <CircularProgress /> : "Sign In"}
           </Button>
         </form>
       </div>

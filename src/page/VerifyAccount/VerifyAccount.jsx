@@ -115,14 +115,7 @@ const VerifyAccount = () => {
 
           <div className="w-[300px] m-auto">
             <Button type="submit" className="btn-blue w-full">
-              {isLoading === true ? (
-                <CircularProgress
-                  color="inherit"
-                  style={{ width: "20px", height: "20px" }}
-                />
-              ) : (
-                "Verify OTP"
-              )}
+              {isLoading === true ? <CircularProgress /> : "Verify OTP"}
             </Button>
           </div>
         </form>
