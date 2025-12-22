@@ -3,9 +3,21 @@ import Button from "@mui/material/Button";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Badge from "../../Component/Badge/Badge";
 import SearchBox from "../../Component/SearchBox/SearchBox";
+import { useEffect } from "react";
+import { editData, fetchDataFromApi } from "../../utils/api";
+
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { useContext } from "react";
+import { myContext } from "../../App";
 
 const Orders = () => {
   const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [orderStatus, setOrderStatus] = useState("");
+
+  const context = useContext(myContext);
+
   const isShowOrderProduct = (index) => {
     if (isOpenOrderProduct === index) {
       setIsOpenOrderProduct(null);
@@ -13,17 +25,42 @@ const Orders = () => {
       setIsOpenOrderProduct(index);
     }
   };
+
+  const handleChange = (e, id) => {
+    setOrderStatus(e.target.value);
+    const obj = {
+      id: id,
+      order_status: e.target.value,
+    };
+    editData(`/api/order/order-status/${id}`, obj).then((res) => {
+      console.log(res);
+      if (res?.data?.error === false) {
+        context.openAlartBox("Sucess", res?.data?.message);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchDataFromApi("/api/order/order-list").then((res) => {
+      if (res?.data?.error === false) {
+        setOrders(res?.data?.data);
+      }
+    });
+  }, [orderStatus]);
+
   return (
     <div className="card my-4 shadow-md sm:rounded-lg bg-white">
       <div className="flex items-center justify-between px-5 py-5">
         <h2 className="text-[18px] font-[600]">Recent Orders</h2>
-        <div className="w-[40%]"><SearchBox/></div>
+        <div className="w-[40%]">
+          <SearchBox />
+        </div>
       </div>
       <div className="relative overflow-x-auto mt-5 pb-5">
-        <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+        <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 &nbsp;
               </th>
               <th scope="col" className="px-6 py-3 whitespace-nowrap">
@@ -62,307 +99,196 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b  dark:border-gray-700">
-              <td className="px-6 py-4 font-[500]">
-                {" "}
-                <Button
-                  onClick={() => isShowOrderProduct(0)}
-                  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
-                >
-                  {isOpenOrderProduct === 0 ? (
-                    <IoIosArrowUp
-                      size={18}
-                      className="text-[rgba(0,0,0,0.7)]"
-                    />
-                  ) : (
-                    <IoIosArrowDown
-                      size={18}
-                      className="text-[rgba(0,0,0,0.7)]"
-                    />
-                  )}
-                </Button>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">
-                  25dsfdscee5224fer5
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">25ddvdr5</span>
-              </td>
-              <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                Biswajit Biswas
-              </td>
-              <td className="px-6 py-4 font-[500]">7797756092</td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="block w-[400px]">
-                  188, Raja Subodh Chandra Mallick Rd, Jadavpur, Kolkata, West
-                  Bengal 700032
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">700032</td>
-              <td className="px-6 py-4 font-[500]">1500.00</td>
-              <td className="px-6 py-4 font-[500]">biswajitbp6092@gmail.com</td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">
-                  56vdv5e522e5r23ee
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <Badge status="Delivered" />
-              </td>
-              <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                19-09-2025
-              </td>
-            </tr>
-            {isOpenOrderProduct === 0 && (
-              <tr>
-                <td className="pl-20" colSpan={6}>
-                  <div className="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-                      <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Product Id
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Product Title
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Image
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Quentity
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Price
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Sub Total
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="bg-white border-b  dark:border-gray-700">
-                          <td className="px-6 py-4 font-[500]">
-                            <span className="text-gray-600">
-                              25dsfdscee5224fer5
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            Women Wide Leg High-Rise ...
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            <img
-                              src="https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg"
-                              alt=""
-                              className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
+            {orders?.length !== 0 &&
+              orders?.map((order, index) => {
+                return (
+                  <>
+                    <tr
+                      key={index}
+                      className="bg-white border-b  dark:border-gray-700"
+                    >
+                      <td className="px-6 py-4 font-[500]">
+                        {" "}
+                        <Button
+                          onClick={() => isShowOrderProduct(index)}
+                          className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
+                        >
+                          {isOpenOrderProduct === index ? (
+                            <IoIosArrowUp
+                              size={18}
+                              className="text-[rgba(0,0,0,0.7)]"
                             />
-                          </td>
-                          <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                            3
-                          </td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                        </tr>
-
-                        <tr class="bg-white border-b  dark:border-gray-700">
-                          <td className="px-6 py-4 font-[500]">
-                            <span className="text-gray-600">
-                              25dsfdscee5224fer5
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            Women Wide Leg High-Rise ...
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            <img
-                              src="https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg"
-                              alt=""
-                              className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
+                          ) : (
+                            <IoIosArrowDown
+                              size={18}
+                              className="text-[rgba(0,0,0,0.7)]"
                             />
-                          </td>
-                          <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                            3
-                          </td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
-            )}
-
-            <tr class="bg-white border-b  dark:border-gray-700">
-              <td className="px-6 py-4 font-[500]">
-                {" "}
-                <Button
-                  onClick={() => isShowOrderProduct(1)}
-                  className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
-                >
-                  {isOpenOrderProduct === 0 ? (
-                    <IoIosArrowUp
-                      size={18}
-                      className="text-[rgba(0,0,0,0.7)]"
-                    />
-                  ) : (
-                    <IoIosArrowDown
-                      size={18}
-                      className="text-[rgba(0,0,0,0.7)]"
-                    />
-                  )}
-                </Button>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">
-                  25dsfdscee5224fer5
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">25ddvdr5</span>
-              </td>
-              <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                Biswajit Biswas
-              </td>
-              <td className="px-6 py-4 font-[500]">7797756092</td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="block w-[400px]">
-                  188, Raja Subodh Chandra Mallick Rd, Jadavpur, Kolkata, West
-                  Bengal 700032
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">700032</td>
-              <td className="px-6 py-4 font-[500]">1500.00</td>
-              <td className="px-6 py-4 font-[500]">biswajitbp6092@gmail.com</td>
-              <td className="px-6 py-4 font-[500]">
-                <span className="text-[#3872fa] font-[600]">
-                  56vdv5e522e5r23ee
-                </span>
-              </td>
-              <td className="px-6 py-4 font-[500]">
-                <Badge status="Delivered" />
-              </td>
-              <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                19-09-2025
-              </td>
-            </tr>
-            {isOpenOrderProduct === 1 && (
-              <tr>
-                <td className="pl-20" colSpan={6}>
-                  <div className="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-                      <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Product Id
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Product Title
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Image
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Quentity
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Price
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 whitespace-nowrap"
-                          >
-                            Sub Total
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="bg-white border-b  dark:border-gray-700">
-                          <td className="px-6 py-4 font-[500]">
-                            <span className="text-gray-600">
-                              25dsfdscee5224fer5
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            Women Wide Leg High-Rise ...
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            <img
-                              src="https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg"
-                              alt=""
-                              className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
-                            />
-                          </td>
-                          <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                            3
-                          </td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                        </tr>
-
-                        <tr class="bg-white border-b  dark:border-gray-700">
-                          <td className="px-6 py-4 font-[500]">
-                            <span className="text-gray-600">
-                              25dsfdscee5224fer5
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            Women Wide Leg High-Rise ...
-                          </td>
-                          <td className="px-6 py-4 font-[500]">
-                            <img
-                              src="https://serviceapi.spicezgold.com/download/1753722939206_125c18d6-592d-4082-84e5-49707ae9a4fd1749366193911-Flying-Machine-Women-Wide-Leg-High-Rise-Light-Fade-Stretchab-1.jpg"
-                              alt=""
-                              className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
-                            />
-                          </td>
-                          <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                            3
-                          </td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                          <td className="px-6 py-4 font-[500]">1500.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
-            )}
+                          )}
+                        </Button>
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        <span className="text-[#ff5252]">{order?._id}</span>
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        <span className="text-[#ff5252]">
+                          {order?.paymentId || "Cash On Delivery"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                        {order?.userId?.name}
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        {order?.delivery_address?.mobile}
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        <span className="block w-[400px]">
+                          {order?.delivery_address?.address_line +
+                            ", " +
+                            order?.delivery_address?.city +
+                            ", " +
+                            order?.delivery_address?.landmark +
+                            ", " +
+                            order?.delivery_address?.state +
+                            ", " +
+                            order?.delivery_address?.country}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        {order?.delivery_address?.pin_code}
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        {order?.totalAmt}
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        {order?.userId?.email}
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        <span className="text-[#ff5252]">
+                          {order?.userId?._id}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-[500]">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={
+                            order?.order_status !== null
+                              ? order?.order_status
+                              : orderStatus
+                          }
+                          label="Status"
+                          size="small"
+                          className="w-full"
+                          onChange={(e) => handleChange(e, order?._id)}
+                        >
+                          <MenuItem value="pending">Pending</MenuItem>
+                          <MenuItem value="confirm">Confirm</MenuItem>
+                          <MenuItem value="delivered">Delivered</MenuItem>
+                        </Select>
+                      </td>
+                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                        {order?.createdAt?.split("T")[0]}
+                      </td>
+                    </tr>
+                    {isOpenOrderProduct === index && (
+                      <tr>
+                        <td className="pl-20" colSpan={6}>
+                          <div className="relative overflow-x-auto">
+                            <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
+                              <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+                                <tr>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Product Id
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Product Title
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Image
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Quentity
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Price
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 whitespace-nowrap"
+                                  >
+                                    Sub Total
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {order?.products?.map((item, index) => {
+                                  return (
+                                    <tr
+                                      key={index}
+                                      className="bg-white border-b  dark:border-gray-700"
+                                    >
+                                      <td className="px-6 py-4 font-[500]">
+                                        <span className="text-gray-600">
+                                          {item?._id}
+                                        </span>
+                                      </td>
+                                      <td className="px-6 py-4 font-[500]">
+                                        <div className="w-[250px]">
+                                          {item?.productTitle}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 font-[500]">
+                                        <img
+                                          src={item?.image}
+                                          alt=""
+                                          className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
+                                        />
+                                      </td>
+                                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                                        {item?.quantity}
+                                      </td>
+                                      <td className="px-6 py-4 font-[500]">
+                                        {item?.price?.toLocaleString("en-US", {
+                                          style: "currency",
+                                          currency: "INR",
+                                        })}
+                                      </td>
+                                      <td className="px-6 py-4 font-[500]">
+                                        {item?.subTotal?.toLocaleString(
+                                          "en-US",
+                                          {
+                                            style: "currency",
+                                            currency: "INR",
+                                          }
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                );
+              })}
           </tbody>
         </table>
       </div>

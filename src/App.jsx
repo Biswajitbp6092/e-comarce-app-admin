@@ -9,19 +9,14 @@ import Login from "./page/Login/Login";
 import SignUp from "./page/SignUp/SignUp";
 import Products from "./page/Products/Products";
 const myContext = createContext();
-
 import HomeSliderBanner from "./page/HomeSliderBanner/HomeSliderBanner";
-
 import CategoryList from "./page/Category/CategoryList";
-
 import SubCategoryList from "./page/Category/SubCategoryList";
-
 import Users from "./page/Users/Users";
 import Orders from "./page/Orders/Orders";
 import ForgotPassword from "./page/ForgotPassword/ForgotPassword";
 import VerifyAccount from "./page/VerifyAccount/VerifyAccount";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
-
 import toast, { Toaster } from "react-hot-toast";
 import { fetchDataFromApi } from "./utils/api";
 import { useEffect } from "react";
