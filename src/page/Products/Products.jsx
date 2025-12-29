@@ -32,7 +32,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const columns = [
   { id: "product", label: "PRODUCT", minWidth: 140 },
-  { id: "category", label: "CATEGORY", minWidth: 100, },
+  { id: "category", label: "CATEGORY", minWidth: 100 },
   { id: "subcategory", label: "SUB CATEGORY", minWidth: 140 },
   { id: "thirdcategory", label: "THIRD CATEGORY", minWidth: 140 },
   { id: "price", label: "PRICE", minWidth: 100 },
@@ -42,6 +42,7 @@ const columns = [
 ];
 
 const Products = () => {
+  const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
   const [productCat, setProductCat] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -336,7 +337,8 @@ const Products = () => {
                     />
                   </TableCell>
                   {columns.map((column) => (
-                    <TableCell className="!text-[13px]"
+                    <TableCell
+                      className="!text-[13px]"
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}

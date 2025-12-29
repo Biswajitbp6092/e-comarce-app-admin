@@ -1,114 +1,123 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import Badge from "../../Component/Badge/Badge";
 import SearchBox from "../../Component/SearchBox/SearchBox";
-import { useEffect } from "react";
 import { editData, fetchDataFromApi } from "../../utils/api";
-
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useContext } from "react";
 import { myContext } from "../../App";
+import Pagination from "@mui/material/Pagination";
 
 const Orders = () => {
   const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [orderStatus, setOrderStatus] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageOrder, setPageOrder] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const context = useContext(myContext);
 
   const isShowOrderProduct = (index) => {
-    if (isOpenOrderProduct === index) {
-      setIsOpenOrderProduct(null);
-    } else {
-      setIsOpenOrderProduct(index);
-    }
+    setIsOpenOrderProduct(isOpenOrderProduct === index ? null : index);
   };
 
   const handleChange = (e, id) => {
-    setOrderStatus(e.target.value);
-    const obj = {
-      id: id,
-      order_status: e.target.value,
-    };
+    const newStatus = e.target.value;
+    const obj = { id, order_status: newStatus };
+
     editData(`/api/order/order-status/${id}`, obj).then((res) => {
-      console.log(res);
       if (res?.data?.error === false) {
-        context.openAlartBox("Sucess", res?.data?.message);
+        context.openAlartBox("Success", res?.data?.message);
+        fetchOrders();
+      }
+    });
+  };
+
+  const fetchOrders = () => {
+    const endpoint = searchQuery
+      ? `/api/order/admin/order-list?page=${pageOrder}&limit=7&search=${searchQuery}`
+      : `/api/order/admin/order-list?page=${pageOrder}&limit=7`;
+
+    fetchDataFromApi(endpoint).then((res) => {
+      if (res?.data?.error === false) {
+        setOrders(res.data.data || []);
+        setTotalPages(res.data.totalPages || 1);
       }
     });
   };
 
   useEffect(() => {
-    fetchDataFromApi("/api/order/order-list").then((res) => {
-      if (res?.data?.error === false) {
-        setOrders(res?.data?.data);
-      }
-    });
-  }, [orderStatus]);
+    setPageOrder(1);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [pageOrder, searchQuery]);
 
   return (
-    <div className="card my-4 shadow-md sm:rounded-lg bg-white">
+    <div className="card mt-4 shadow-md sm:rounded-lg bg-white h-full">
       <div className="flex items-center justify-between px-5 py-5">
         <h2 className="text-[18px] font-[600]">Recent Orders</h2>
-        <div className="w-[40%]">
-          <SearchBox />
+        <div className="w-[25%]">
+          <SearchBox
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            setPageOrder={setPageOrder}
+          />
         </div>
       </div>
+
       <div className="relative overflow-x-auto mt-5 pb-5">
         <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:text-gray-600">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                &nbsp;
-              </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col">&nbsp;</th>
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Order Id
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                payment Id
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
+                Payment Id
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Phone Number
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Address
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Pincode
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Total Amount
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Email
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 User Id
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
-                Order Status
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
+                Status
               </th>
-              <th scope="col" className="px-6 py-3 whitespace-nowrap">
+              <th scope="col" className="px-3 py-3 whitespace-nowrap">
                 Date
               </th>
             </tr>
           </thead>
+
           <tbody>
             {orders?.length !== 0 &&
               orders?.map((order, index) => {
                 return (
                   <>
                     <tr
+                      className="bg-white border-b dark:border-gray-700"
                       key={index}
-                      className="bg-white border-b  dark:border-gray-700"
                     >
-                      <td className="px-6 py-4 font-[500]">
-                        {" "}
+                      <td className="px-3 py-3">
                         <Button
                           onClick={() => isShowOrderProduct(index)}
                           className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
@@ -126,57 +135,56 @@ const Orders = () => {
                           )}
                         </Button>
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        <span className="text-[#ff5252]">{order?._id}</span>
+
+                      <td className="px-3 py-3 text-[#3872fa] font-[500] whitespace-nowrap">
+                        {order?._id}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        <span className="text-[#ff5252]">
-                          {order?.paymentId || "Cash On Delivery"}
-                        </span>
+
+                      <td className="px-3 py-3 text-[#3872fa] font-[500] whitespace-nowrap">
+                        {order?.paymentId || "Cash On Delivery"}
                       </td>
-                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
+
+                      <td className="px-3 py-3 whitespace-nowrap font-[500]">
                         {order?.userId?.name}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
+                      <td className="px-3 py-3 whitespace-nowrap font-[500]">
                         {order?.delivery_address?.mobile}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        <span className="block w-[400px]">
-                          {order?.delivery_address?.address_line +
-                            ", " +
-                            order?.delivery_address?.city +
-                            ", " +
-                            order?.delivery_address?.landmark +
-                            ", " +
-                            order?.delivery_address?.state +
-                            ", " +
-                            order?.delivery_address?.country}
+
+                      <td className="px-3 py-3">
+                        <span className="block w-[280px]">
+                          {[
+                            order?.delivery_address?.address_line,
+                            order?.delivery_address?.city,
+                            order?.delivery_address?.landmark,
+                            order?.delivery_address?.state,
+                            order?.delivery_address?.country,
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
                         </span>
                       </td>
-                      <td className="px-6 py-4 font-[500]">
+
+                      <td className="px-3 py-3">
                         {order?.delivery_address?.pin_code}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        {order?.totalAmt}
+
+                      <td className="px-3 py-3">
+                        {order?.totalAmt?.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "INR",
+                        })}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        {order?.userId?.email}
+
+                      <td className="px-3 py-3">{order?.userId?.email}</td>
+
+                      <td className="px-3 py-3 text-[#3872fa]">
+                        {order?.userId?._id}
                       </td>
-                      <td className="px-6 py-4 font-[500]">
-                        <span className="text-[#ff5252]">
-                          {order?.userId?._id}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 font-[500]">
+
+                      <td className="px-3 py-3">
                         <Select
-                          labelId="demo-simple-select-helper-label"
-                          id="demo-simple-select-helper"
-                          value={
-                            order?.order_status !== null
-                              ? order?.order_status
-                              : orderStatus
-                          }
-                          label="Status"
+                          value={order?.order_status || "pending"}
                           size="small"
                           className="w-full"
                           onChange={(e) => handleChange(e, order?._id)}
@@ -186,100 +194,89 @@ const Orders = () => {
                           <MenuItem value="delivered">Delivered</MenuItem>
                         </Select>
                       </td>
-                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
+
+                      <td className="px-3 py-3 whitespace-nowrap">
                         {order?.createdAt?.split("T")[0]}
                       </td>
                     </tr>
+
                     {isOpenOrderProduct === index && (
                       <tr>
-                        <td className="pl-20" colSpan={6}>
+                        <td colSpan={6} className="pl-20">
                           <div className="relative overflow-x-auto">
-                            <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
-                              <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
+                            <table className="w-full text-sm text-left text-gray-600">
+                              <thead className="text-xs bg-gray-50 uppercase">
                                 <tr>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
                                     Product Id
                                   </th>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
-                                    Product Title
+                                    Title
                                   </th>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
                                     Image
                                   </th>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
-                                    Quentity
+                                    Qty
                                   </th>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
                                     Price
                                   </th>
                                   <th
                                     scope="col"
-                                    className="px-6 py-3 whitespace-nowrap"
+                                    className="px-3 py-3  whitespace-nowrap"
                                   >
                                     Sub Total
                                   </th>
                                 </tr>
                               </thead>
+
                               <tbody>
-                                {order?.products?.map((item, index) => {
-                                  return (
-                                    <tr
-                                      key={index}
-                                      className="bg-white border-b  dark:border-gray-700"
-                                    >
-                                      <td className="px-6 py-4 font-[500]">
-                                        <span className="text-gray-600">
-                                          {item?._id}
-                                        </span>
-                                      </td>
-                                      <td className="px-6 py-4 font-[500]">
-                                        <div className="w-[250px]">
-                                          {item?.productTitle}
-                                        </div>
-                                      </td>
-                                      <td className="px-6 py-4 font-[500]">
-                                        <img
-                                          src={item?.image}
-                                          alt=""
-                                          className="w-[40px] h-[40px] object-cover overflow-hidden rounded-md"
-                                        />
-                                      </td>
-                                      <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                                        {item?.quantity}
-                                      </td>
-                                      <td className="px-6 py-4 font-[500]">
-                                        {item?.price?.toLocaleString("en-US", {
-                                          style: "currency",
-                                          currency: "INR",
-                                        })}
-                                      </td>
-                                      <td className="px-6 py-4 font-[500]">
-                                        {item?.subTotal?.toLocaleString(
-                                          "en-US",
-                                          {
-                                            style: "currency",
-                                            currency: "INR",
-                                          }
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
+                                {order?.products?.map((item, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-b border-[#c5c5c5]"
+                                  >
+                                    <td className="px-3 py-3">{item?._id}</td>
+                                    <td className="px-3 py-3 w-[300px]">
+                                      {item?.productTitle}
+                                    </td>
+                                    <td className="px-3 py-3">
+                                      <img
+                                        src={item?.image}
+                                        className="w-[40px] h-[40px] rounded-md"
+                                        alt=""
+                                      />
+                                    </td>
+                                    <td className="px-3 py-3">
+                                      {item?.quantity}
+                                    </td>
+                                    <td className="px-3 py-3">
+                                      {item?.price?.toLocaleString("en-US", {
+                                        style: "currency",
+                                        currency: "INR",
+                                      })}
+                                    </td>
+                                    <td className="px-3 py-3">
+                                      ₹{item?.subTotal?.toLocaleString("en-US",{style:"currency", currency:"INR"})}
+                                    </td>
+                                  </tr>
+                                ))}
                               </tbody>
                             </table>
                           </div>
@@ -292,6 +289,18 @@ const Orders = () => {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-2 pb-0">
+          <Pagination
+            showFirstButton
+            showLastButton
+            count={totalPages}
+            page={pageOrder}
+            onChange={(e, value) => setPageOrder(value)}
+          />
+        </div>
+      )}
     </div>
   );
 };

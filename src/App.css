@@ -68,6 +68,6 @@ input[type="text"]:disabled input[type="email"]:disabled{
 .swiper-button-prev, .swiper-button-next {display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 100%; width: 45px; height: 45px; min-width: 45px; box-shadow: 0 1px 3px #0000001f, 0 1px 2px #0000003d !important; transition: all 0.2s;}
 
 .swiper-button-prev::after, .swiper-button-next::after{font-size: 22px !important; color: #000;}
-.contentRight{padding-top: 80px !important;}
+.contentRight{padding-top: 60px !important;}
 
 .rsw-editor {min-height: 250px !important; background: #ffffff !important;}
