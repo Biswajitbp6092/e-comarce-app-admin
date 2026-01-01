@@ -1,9 +1,9 @@
-@media only screen and (min-width:320px) and(max-width:992px){
-<<<<<<< HEAD
-    html, body{overflow-x: hidden;}
-    .MuiTableCell-head {white-space: nowrap;}
-    
-=======
->>>>>>> cb876711c4556879d3abdb8b55ced88f73d654e9
-    
+@media only screen and (min-width: 320px) and(max-width:992px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  .MuiTableCell-head {
+    white-space: nowrap;
+  }
 }
