@@ -71,23 +71,22 @@ const Blog = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
-          Blog List <span className="font-[400] text-[14px]"></span>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-2 mt-2">
+        <h2 className="text-[18px] font-semibold">
+          Blog List <span className="font-normal text-[14px]"></span>
         </h2>
-        <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
-          <Button
-            onClick={() =>
-              context.setIsOppenFullScreenPanel({
-                open: true,
-                model: "Add Blog",
-              })
-            }
-            className="btn-blue !text-white btn-sm"
-          >
-            Add Blog
-          </Button>
-        </div>
+
+        <Button
+          onClick={() =>
+            context.setIsOppenFullScreenPanel({
+              open: true,
+              model: "Add Blog",
+            })
+          }
+          className="btn-blue !text-white btn-sm w-full sm:w-auto"
+        >
+          Add Blog
+        </Button>
       </div>
 
       <section>
@@ -115,26 +114,26 @@ const Blog = () => {
                     return (
                       <TableRow key={index}>
                         <TableCell width={300}>
-                          <div className="flex items-center gap-4 w-[300px]">
+                          <div className="flex items-center gap-4 w-[250px] md:w-[300px] lg:w-auto">
                             <div className="img w-full rounded-md overflow-hidden group">
                               <Link to={`/product/1`}>
                                 <img
                                   src={item.images[0]}
                                   alt="Women Wide Leg Jeans"
-                                  className="w-full h-[150px] object-cover group-hover:scale-105 transition-all"
+                                  className="w-full md:h-[140px] object-cover group-hover:scale-105 transition-all"
                                 />
                               </Link>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell width={200}>
-                          <span className="text-[15px] font-[500]">
+                          <span className="text-[15px] font-[500] inline-block w-[200px] md:w-[300px]">
                             {item?.title}
                           </span>
                         </TableCell>
                         <TableCell width={300}>
-                          <div className="text-[14px] text-gray-700">
-                            {stripHtml(item?.description)?.substring(0, 300)}...
+                          <div className="text-[14px] text-gray-700 w-[200px] md:w-[300px]">
+                            {stripHtml(item?.description)?.substring(0, 150)}...
                           </div>
                         </TableCell>
 

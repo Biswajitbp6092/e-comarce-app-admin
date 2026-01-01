@@ -117,134 +117,154 @@ const Login = () => {
     );
   };
   return (
-    <section className="bg-[#fff] w-full">
-      <header className="w-full fixed top-0 left-0 px-4 py-3 flex items-center justify-between z-50">
-        <Link to="/">
-          <img src="/logo.png" alt="" className="w-[180px]" />
-        </Link>
-        <div className="flex items-center gap-0">
-          <NavLink to="/login" exact={true} activeClassName="isActive">
-            <Button className="!rounded-full !text-[rgba(0,0,0,0.8)] !px-5 flex gap-2">
-              <CgLogIn size={14} />
-              Login
-            </Button>
-          </NavLink>
+    <section className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+      {/* LEFT – LOGIN FORM */}
+      <div className="flex items-center justify-center px-3 py-3 lg:px-6 bg-white">
+        <div className="w-full max-w-lg">
+          <img src="/logo.png" alt="Logo" className="w-32 mb-5" />
 
-          <NavLink to="/sign-up" exact={true} activeClassName="isActive">
-            <Button className="!rounded-full !text-[rgba(0,0,0,0.8)] !px-5 flex gap-2">
-              <FaRegUser size={14} />
-              Sign up
-            </Button>
-          </NavLink>
-        </div>
-      </header>
-      <img
-        src="./patarn.jpg"
-        alt=""
-        className="w-full fixed top-0 left-0 opacity-1.5"
-      />
-      <div className="loginBox card w-[600px] h-auto pb-25 mx-auto pt-20 relative z-50">
-        <div className="text-center">
-          <img src="/logo.png" alt="" className="m-auto w-[180px]" />
-        </div>
-        <h1 className="text-center text-[35px] font-[800] mt-4">
-          Welcome Back! <br />
-          <span className="text-[#3872fa]">Sighn in with your credentials</span>
-        </h1>
-        <div className="flex items-center justify-center w-full mt-5 gap-4">
-          <Button
-            size="small"
-            onClick={handleClickGoogle}
-            endIcon={<FcGoogle size={24} />}
-            loading={loadingGoogle}
-            loadingPosition="end"
-            variant="outlined"
-            className="!bg-none !py-2  !text-[15px] !capitalize !px-5 !text-[rgba(0,0,0,0.7)]"
-          >
-            Sign in with Google
-          </Button>
+          <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-1">
+            Welcome Back!
+          </h1>
+          <p className="text-gray-500 mb-6 text-sm md:text-base">
+            Sign in to access your dashboard and continue optimizing your QA
+            process
+          </p>
 
-          <Button
-            size="small"
-            onClick={handleClickFb}
-            endIcon={<FaFacebook size={24} className="text-blue-600" />}
-            loading={loadingFb}
-            loadingPosition="end"
-            variant="outlined"
-            className="!bg-none !py-2 !text-[15px] !capitalize !px-5 !text-[rgba(0,0,0,0.7)]"
-          >
-            Sign in with Facebook
-          </Button>
-        </div>
-
-        <br />
-        <div className="w-full flex items-center justify-center gap-3">
-          <span className="flex items-center w-[100px] h-[1px] bg-[rgba(0,0,0,0.2)]"></span>
-          <span className="text-[14px] font-[500]">
-            or sign in with your email
-          </span>
-          <span className="flex items-center w-[100px] h-[1px] bg-[rgba(0,0,0,0.2)]"></span>
-        </div>
-        <br />
-
-        <form action="" className="w-full px-8 mt-3" onSubmit={handelSubmit}>
-          <div className="form-group mb-4 w-full">
-            <h4 className="text-[14px] font-[500] mb-1">Email</h4>
-            <input
-              type="email"
-              className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
-              name="email"
-              value={formFields.email}
-              disabled={isLoading === true ? true : false}
-              onChange={onChangeInput}
-            />
-          </div>
-
-          <div className="form-group mb-4 w-full">
-            <h4 className="text-[14px] font-[500] mb-1">Password</h4>
-            <div className="relative w-full">
+          <form className="space-y-3" onSubmit={handelSubmit}>
+            <div>
+              <label className="text-sm md:text-md font-bold text-gray-700">Email</label>
               <input
-                type={isPasswordShow ? "text" : "password"}
-                className="w-full px-4 h-[50px] border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-0 "
-                name="password"
-                value={formFields.password}
+                type="email"
+                className="w-full h-[46px] bg-white px-4 mt-1 rounded-lg border-1 border-[#0f766e] focus:outline-none "
+                name="email"
+                placeholder="Enter your email"
+                value={formFields.email}
                 disabled={isLoading === true ? true : false}
                 onChange={onChangeInput}
               />
-              <Button
-                onClick={handelClickShowPassword}
-                className="!absolute top-[10px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-600"
-              >
-                {isPasswordShow === true ? (
-                  <FaRegEye size={16} />
-                ) : (
-                  <FaEyeSlash size={16} />
-                )}
-              </Button>
             </div>
-          </div>
 
-          <div className="form-group mb-4 w-full flex items-center justify-between">
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Remember me"
-            />
-            <Link
-              to="#"
-              onClick={forGotPassword}
-              className="text-[#3872fa] font-[600] text-[15px] hover:underline"
+            <div>
+              <label className="text-sm md:text-md font-bold text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={isPasswordShow ? "text" : "password"}
+                  name="password"
+                  value={formFields.password}
+                  disabled={isLoading === true ? true : false}
+                  onChange={onChangeInput}
+                  placeholder="Enter your password"
+                  className="w-full h-[46px] px-4 mt-1 rounded-lg border-1 border-[#0f766e] focus:outline-none "
+                />
+                <Button
+                  onClick={handelClickShowPassword}
+                  className="!absolute top-[10px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-600"
+                >
+                  {isPasswordShow === true ? (
+                    <FaRegEye size={16} />
+                  ) : (
+                    <FaEyeSlash size={16} />
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center text-sm">
+              <div></div>
+              <Link
+                to="#"
+                onClick={forGotPassword}
+                className="text-[#0f766e] font-medium hover:underline"
+              >
+                Forgot Password
+              </Link>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={!validValue}
+              className="w-full h-[50px] !rounded-lg !bg-[#0f766e] !text-white font-semibold cursor-pointer hover:!bg-[#0d605c] mt-4"
             >
-              Forgot Password
+              {isLoading ? <CircularProgress /> : "Sign In"}
+            </Button>
+
+            <div className="w-full flex items-center justify-center gap-3 mt-3 mb-3">
+              <span className="flex items-center w-[250px] h-[1px] bg-[rgba(0,0,0,0.2)]"></span>
+              <span className="text-base">OR</span>
+              <span className="flex items-center w-[250px] h-[1px] bg-[rgba(0,0,0,0.2)]"></span>
+            </div>
+
+            <Button
+              fullWidth
+              onClick={handleClickGoogle}
+              startIcon={<FcGoogle size={24} />}
+              loading={loadingGoogle}
+              loadingPosition="end"
+              variant="outlined"
+              className="!h-[48px] !rounded-lg !capitalize !text-[#0f766e] !border-[#0f766e]"
+            >
+              Sign in with Google
+            </Button>
+
+            <Button
+              fullWidth
+              onClick={handleClickFb}
+              startIcon={<FaFacebook size={24} className="text-[#0f766e]" />}
+              loading={loadingFb}
+              loadingPosition="end"
+              variant="outlined"
+              className="!h-[48px] !rounded-lg !capitalize !mt-2 !text-[#0f766e] !border-[#0f766e]"
+            >
+              Sign in with Facebook
+            </Button>
+          </form>
+
+          <p className="text-sm text-center text-gray-600 mt-6">
+            Don’t have an account?{" "}
+            <Link to="/sign-up" className="text-[#0f766e] font-semibold hover:underline">
+              Sign Up
             </Link>
+          </p>
+        </div>
+      </div>
+
+      {/* RIGHT – TESTIMONIALS */}
+      <div className="hidden lg:flex flex-col justify-center px-16 bg-gradient-to-br from-[#083344] via-[#0f766e] to-[#134e4a] text-white">
+        <h2 className="text-4xl font-bold mb-6">
+          Revolutionize QA with <br /> Smarter Automation
+        </h2>
+
+        <p className="text-white/80 text-lg mb-10">
+          “SoftQA has completely transformed our testing process. It’s reliable,
+          efficient, and ensures releases are always top-notch.”
+        </p>
+
+        <div className="flex items-center gap-4">
+          <img
+            src="https://i.pravatar.cc/60"
+            className="w-12 h-12 rounded-full"
+            alt=""
+          />
+          <div>
+            <p className="font-semibold">Michael Carter</p>
+            <p className="text-sm text-white/70">
+              Software Engineer at DevCore
+            </p>
           </div>
-          <Button
-            type="submit"
-            disabled={!validValue}
-            className="btn-blue btn-lg w-full cursor-pointer"
-          >
-            {isLoading ? <CircularProgress /> : "Sign In"}
-          </Button>
-        </form>
+        </div>
+
+        <div className="mt-16 opacity-70 text-sm">
+          Trusted by teams at
+          <div className="flex gap-6 mt-4 flex-wrap">
+            <span>Discord</span>
+            <span>Mailchimp</span>
+            <span>Grammarly</span>
+            <span>Dropbox</span>
+          </div>
+        </div>
       </div>
     </section>
   );

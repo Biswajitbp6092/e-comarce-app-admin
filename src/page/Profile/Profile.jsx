@@ -49,7 +49,6 @@ const Profile = () => {
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    
   };
 
   useEffect(() => {
@@ -192,7 +191,6 @@ const Profile = () => {
       setPreviews([]);
       const files = e.target.files;
       setUploading(true);
-  
 
       for (let i = 0; i < files.length; i++) {
         if (
@@ -217,10 +215,9 @@ const Profile = () => {
         uploadImage("/api/user/user-avatar", formData).then((res) => {
           setUploading(false);
           let avatar = [];
-    
+
           avatar.push(res?.data?.avatar);
           setPreviews(avatar);
-        
         });
       }
     } catch (error) {
@@ -230,12 +227,14 @@ const Profile = () => {
 
   return (
     <>
-      <div className="card my-4 pt-5 w-[65%] shadow-md sm:rounded-lg bg-white px-5 pb-5">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[18px] font-[600]">Users Profile</h2>
+      <div className="card my-4 pt-5 w-full lg:w-[65%] shadow-md sm:rounded-lg bg-white px-5 pb-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between">
+          <h2 className="text-base font-[600] whitespace-nowrap">
+            Admin Profile
+          </h2>
 
           <Button
-            className="!ml-auto"
+            className="md:!ml-auto whitespace-nowrap"
             onClick={() =>
               setIsChangePassowrdFormShow(!isChangePassowrdFormShow)
             }
@@ -244,7 +243,7 @@ const Profile = () => {
           </Button>
         </div>
         <br />
-        <div className="w-[100px] h-[100px] rounded-full overflow-hidden mb-4 relative group flex items-center justify-center bg-gray-200">
+        <div className="w-[80px] h-[80px] rounded-full overflow-hidden mb-4 relative group flex items-center justify-center bg-gray-200">
           {uploading === true ? (
             <CircularProgress color="inherit" />
           ) : (
@@ -281,8 +280,8 @@ const Profile = () => {
         </div>
 
         <form action="" className="form mt-8" onSubmit={handelSubmit}>
-          <div className="flex items-center gap-5">
-            <div className="w-[50%]">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-5">
+            <div className="col">
               <input
                 type="text"
                 className="w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3"
@@ -293,7 +292,7 @@ const Profile = () => {
               />
             </div>
 
-            <div className="w-[50%]">
+            <div className="col">
               <input
                 className="bg-[#f1f1f1] cursor-not-allowed w-full h-[35px] border border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-md p-3"
                 label="E-mail"
@@ -307,10 +306,8 @@ const Profile = () => {
                 readOnly
               />
             </div>
-          </div>
 
-          <div className="flex items-center mt-4 gap-5">
-            <div className="w-[50%]">
+            <div className="col">
               <PhoneInput
                 defaultCountry="in"
                 value={formFields.mobile}
@@ -324,6 +321,7 @@ const Profile = () => {
               />
             </div>
           </div>
+
           <br />
 
           <div
@@ -393,7 +391,7 @@ const Profile = () => {
       </div>
 
       <Collapse isOpened={isChangePassowrdFormShow}>
-        <div className="card w-[65%] bg-white p-5 shadow-md rounded-md">
+        <div className="card w-full lg:w-[65%] bg-white p-5 shadow-md rounded-md">
           <div className="flex items-center pb-3">
             <h2 className="pb-0 text-[18px] font-[600]">Change Password</h2>
           </div>
@@ -404,8 +402,8 @@ const Profile = () => {
             className="mt-8"
             onSubmit={handelSubmitChangePassword}
           >
-            <div className="flex items-center gap-5">
-              <div className="w-[50%]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="col">
                 <TextField
                   label="Old Password"
                   variant="outlined"
@@ -418,7 +416,7 @@ const Profile = () => {
                 />
               </div>
 
-              <div className="w-[50%]">
+              <div className="col">
                 <TextField
                   type="text"
                   label="New Password"
@@ -430,10 +428,8 @@ const Profile = () => {
                   onChange={onChangeInput}
                 />
               </div>
-            </div>
 
-            <div className="flex items-center mt-4 gap-5">
-              <div className="w-[50%]">
+              <div className="col">
                 <TextField
                   label="confirm Password"
                   variant="outlined"
@@ -445,6 +441,8 @@ const Profile = () => {
                 />
               </div>
             </div>
+
+            
             <br />
             <div className="my-2">
               <Link to={"/login"}>Forgot Password</Link>

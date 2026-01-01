@@ -60,23 +60,22 @@ const BannerV1List = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
-          Banners List <span className="font-[400] text-[14px]"></span>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-2 mt-2">
+        <h2 className="text-[18px] font-semibold">
+          Banners List <span className="font-normal text-[14px]"></span>
         </h2>
-        <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
-          <Button
-            onClick={() =>
-              context.setIsOppenFullScreenPanel({
-                open: true,
-                model: "Add bannerV1",
-              })
-            }
-            className="btn-blue !text-white btn-sm"
-          >
-            Add Banner
-          </Button>
-        </div>
+
+        <Button
+          onClick={() =>
+            context.setIsOppenFullScreenPanel({
+              open: true,
+              model: "Add bannerV1",
+            })
+          }
+          className="btn-blue !text-white btn-sm w-full sm:w-auto"
+        >
+          Add Banner
+        </Button>
       </div>
 
       <section>
@@ -103,7 +102,7 @@ const BannerV1List = () => {
                     return (
                       <TableRow>
                         <TableCell width={300}>
-                          <div className="flex items-center gap-4 w-[300px]">
+                          <div className="flex items-center gap-4 md:w-[300px]">
                             <div className="img w-full rounded-md overflow-hidden group">
                               <Link to={`/product/1`}>
                                 <img

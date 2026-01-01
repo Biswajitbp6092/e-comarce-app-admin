@@ -80,10 +80,10 @@ const AddCategory = () => {
 
   return (
     <section className="p-5 bg-gray-50">
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit}>
+      <form action="" className="form py-1 p-1 md:p-8 md:py-1" onSubmit={handelSubmit}>
         <div className="grid grid-cols-1 mb-3">
-          <div className="col w-[25%]">
-            <h3 className="text-[14px] font-[500] mb-1 text-black">
+          <div className="col w-full md:w-[25%]">
+            <h3 className="text-base font-[500] mb-1 text-black">
               Category Name
             </h3>
             <input
@@ -96,15 +96,15 @@ const AddCategory = () => {
           </div>
         </div>
         <br />
-        <h3 className="text-[18px] font-[500] mb-1 text-black">
+        <h3 className="text-base font-[500] mb-1 text-black">
           Category Images
         </h3>
         <div className="scroll max-h-[72vh] overflow-y-scroll pr-4 pt-4">
-          <div className="grid grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
             {previews?.length !== 0 &&
               previews.map((image, index) => {
                 return (
-                  <div key={index} className="uploadBoxWrapper relative">
+                  <div key={index} className="uploadBoxWrapper mr-3 relative">
                     <span className="absolute w-[20px] h-[20px] rounded-full overflow-hidden bg-red-700 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer">
                       <IoMdClose
                         onClick={() => removeImg(image, index)}

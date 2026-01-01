@@ -95,7 +95,7 @@ const AddBlog = () => {
 
   return (
     <section className="p-5 bg-gray-50">
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit}>
+      <form className="form py-1 md:p-8" onSubmit={handelSubmit}>
         <div className="grid grid-cols-1 mb-3">
           <div className="col w-[100%]">
             <h3 className="text-[14px] font-[500] mb-1 text-black">Title</h3>
@@ -122,8 +122,8 @@ const AddBlog = () => {
         </div>
         <br />
         <h3 className="text-[18px] font-[500] mb-1 text-black">Blog Images</h3>
-        <div className="scroll max-h-[72vh] overflow-y-scroll pr-4 pt-4">
-          <div className="grid grid-cols-7 gap-4">
+        <div className="scroll max-h-[72vh] overflow-y-scroll md:pr-4 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-4">
             {previews?.length !== 0 &&
               previews.map((image, index) => {
                 return (

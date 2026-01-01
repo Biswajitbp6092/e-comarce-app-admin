@@ -98,7 +98,7 @@ const AddWeight = () => {
         <h2 className="text-[18px] font-[600]">Add Products Weight </h2>
       </div>
 
-      <div className="card my-4 pt-5 pb-5 shadow-md sm:rounded-lg bg-white w-[65%]">
+      <div className="card my-4 pt-5 pb-5 shadow-md sm:rounded-lg bg-white w-full lg:w-[65%]">
         <form action="" className="form py-3 p-6" onSubmit={handelSubmit}>
           <div className="col mb-5">
             <h3 className="text-[14px] font-[500] mb-1 text-black">
@@ -129,7 +129,7 @@ const AddWeight = () => {
         </form>
       </div>
       {data?.length !== 0 && (
-        <div className="card my-4 pt-5 pb-5 shadow-md sm:rounded-lg bg-white w-[65%]">
+        <div className="card my-4 pt-5 pb-5 shadow-md sm:rounded-lg bg-white w-full lg:w-[65%]">
           <div className="relative overflow-x-auto mt-5 pb-5">
             <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100  dark:text-gray-600">

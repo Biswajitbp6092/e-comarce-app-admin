@@ -13,27 +13,20 @@ const SubCategoryList = () => {
   };
   return (
     <>
-      <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
-          Sub Category List{" "}
-          <span className="font-[400] text-[14px]">(MUI CSS Table)</span>
-        </h2>
-        <div className="col w-[30%] ml-auto flex items-center justify-end gap-3">
-          <Button className="btn !bg-green-600 !text-white btn-sm">
-            Export
-          </Button>
-          <Button
-            onClick={() =>
-              context.setIsOppenFullScreenPanel({
-                open: true,
-                model: "Add New Sub Category",
-              })
-            }
-            className="btn-blue !text-white btn-sm"
-          >
-            Add New Sub Category
-          </Button>
-        </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-2">
+        <h2 className="text-[18px] font-semibold">Sub Category List</h2>
+
+        <Button
+          onClick={() =>
+            context.setIsOppenFullScreenPanel({
+              open: true,
+              model: "Add New Sub Category",
+            })
+          }
+          className="btn-blue !text-white btn-lg w-full sm:w-auto"
+        >
+          Add New Sub Category
+        </Button>
       </div>
 
       <div className="card my-4 pt-5 pb-5 px-5 shadow-md sm:rounded-lg bg-white">
@@ -77,7 +70,7 @@ const SubCategoryList = () => {
                                           className="w-full hover:bg-[#f1f1f1]"
                                         >
                                           <EditSubCatBox
-                                            name={thirdLavel?.name} 
+                                            name={thirdLavel?.name}
                                             catData={firstLavelCat?.children}
                                             index={index3}
                                             selectedCat={thirdLavel?.parentId}

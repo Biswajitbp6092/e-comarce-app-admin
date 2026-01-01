@@ -1,5 +1,6 @@
-import React from "react";
+import React, { use } from "react";
 import "./App.css";
+import "./Responsive.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./page/Dashboard/Dashboard";
 import Header from "./Component/Header/Header";
@@ -34,11 +35,22 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [address, setAddress] = useState([]);
   const [catData, setCatData] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [sidebarWidth, setSidebarWidth] = useState(18);
 
   const [isOppenFullScreenPanel, setIsOppenFullScreenPanel] = useState({
     open: false,
     id: "",
   });
+
+  useEffect(() => {
+    if (windowWidth < 992) {
+      setIsSidebarOpen(false);
+      setSidebarWidth(100);
+    } else {
+      setSidebarWidth(18);
+    }
+  }, [windowWidth]);
 
   const router = createBrowserRouter([
     {
@@ -50,15 +62,20 @@ function App() {
             <Header />
             <div className="contentMain flex">
               <div
-                className={`overflow-hidden sideBarWrapper ${
-                  isSidebarOpen === true ? "w-[18%]" : "w-[0px] opacity-1"
+                className={`overflow-hidden sideBarWrapper ${isSidebarOpen === true ?
+                   windowWidth < 992 ? `w-[${sidebarWidth/1.5}%]` : `w-[${sidebarWidth}%]`
+                    : "w-[0px] opacity-0"
                 } transition-all`}
               >
                 <Sidebar />
               </div>
               <div
-                className={`contentRight py-4 px-5 ${
-                  isSidebarOpen === false ? "w-[100%]" : "w-[82%]"
+                className={`contentRight py-4 px-3 lg:px-5 ${
+                  isSidebarOpen === true && windowWidth < 992 && "opacity-0"
+                } ${
+                  isSidebarOpen === false
+                    ? "w-[100%]"
+                    : `w-[${100 - sidebarWidth}%]`
                 } transition-all`}
               >
                 <Dashboard />
@@ -504,6 +521,14 @@ function App() {
 
   useEffect(() => {
     getCat();
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const getCat = () => {
@@ -527,6 +552,10 @@ function App() {
     catData,
     setCatData,
     getCat,
+    setWindowWidth,
+    windowWidth,
+    setSidebarWidth,
+    sidebarWidth,
   };
 
   return (

@@ -42,10 +42,10 @@ const columns = [
 ];
 
 const Products = () => {
-  const [isOpenOrderProduct, setIsOpenOrderProduct] = useState(null);
   const [productCat, setProductCat] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
   const [productData, setProductData] = useState([]);
   const [productSubCat, setProductSubCat] = useState("");
   const [productThirtLavelCat, setProductThirtLavelCat] = useState("");
@@ -194,7 +194,7 @@ const Products = () => {
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-2">
         <h2 className="text-[18px] font-[600]">Products </h2>
-        <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
+        <div className="col flex items-center  gap-3">
           {sortedIds?.length !== 0 && (
             <Button
               variant="contained"
@@ -206,9 +206,7 @@ const Products = () => {
               Delete
             </Button>
           )}
-          <Button className="btn !bg-green-600 !text-white btn-sm">
-            Export
-          </Button>
+
           <Button
             onClick={() =>
               context.setIsOppenFullScreenPanel({
@@ -225,8 +223,9 @@ const Products = () => {
 
       <section>
         <div className="card my-4 pt-5 shadow-md sm:rounded-lg bg-white">
-          <div className="flex items-center w-full px-5 justify-between gap-5">
-            <div className="col w-[20%]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full px-5 justify-between gap-2 lg:gap-5">
+
+            <div className="col">
               <h4 className="font-[600] text-[13px] mb-2">Category By</h4>
               {context?.catData?.length !== 0 && (
                 <Select
@@ -250,7 +249,7 @@ const Products = () => {
               )}
             </div>
 
-            <div className="col w-[20%]">
+            <div className="col">
               <h4 className="font-[600] text-[13px] mb-2">Sub Category By</h4>
               {context?.catData?.length !== 0 && (
                 <Select
@@ -279,7 +278,7 @@ const Products = () => {
               )}
             </div>
 
-            <div className="col w-[20%]">
+            <div className="col">
               <h4 className="font-[600] text-[13px] mb-2">
                 Third Lavel Category By
               </h4>
@@ -315,8 +314,10 @@ const Products = () => {
               )}
             </div>
 
-            <div className="col w-[20%] ml-auto mt-5">
-              <SearchBox />
+            <div className="col w-full ml-auto flex items-center mt-4">
+              <div style={{alignSelf:'end'}} className="w-full">
+                <SearchBox />
+              </div>
             </div>
           </div>
           <br />
@@ -389,7 +390,7 @@ const Products = () => {
                               <div className="info w-[75%]">
                                 <h3 className="font-[600] text-[14px] leading-4 hover:text-[#3872fa]">
                                   <Link to={`/product/${product?._id}`}>
-                                    {product?.name}
+                                    {product?.name?.length > 80 ? product?.name.substring(0,80)+"..." : product?.name }
                                   </Link>
                                 </h3>
                                 <span className="text-[11px]">

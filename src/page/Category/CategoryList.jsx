@@ -59,26 +59,20 @@ const CategoryList = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
-          Category List <span className="font-[400] text-[14px]"></span>
-        </h2>
-        <div className="col w-[30%] ml-auto flex items-center justify-end gap-3">
-          <Button className="btn !bg-green-600 !text-white btn-sm">
-            Export
-          </Button>
-          <Button
-            onClick={() =>
-              context.setIsOppenFullScreenPanel({
-                open: true,
-                model: "Add New Category",
-              })
-            }
-            className="btn-blue !text-white btn-sm"
-          >
-            Add New Category
-          </Button>
-        </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-2 mt-2">
+        <h2 className="text-lg font-semibold">Category List</h2>
+
+        <Button
+          onClick={() =>
+            context.setIsOppenFullScreenPanel({
+              open: true,
+              model: "Add New Category",
+            })
+          }
+          className="btn-blue !text-white btn-lg w-full sm:w-auto"
+        >
+          Add New Category
+        </Button>
       </div>
 
       <section>
@@ -92,7 +86,7 @@ const CategoryList = () => {
                       width={column.minWidth}
                       key={column.id}
                       align={column.align}
-                      className="!bg-[#cfcfcf] !pl-26"
+                      className="!bg-[#cfcfcf] md:!pl-26 whitespace-nowrap"
                     >
                       {column.label}
                     </TableCell>
@@ -105,7 +99,7 @@ const CategoryList = () => {
                   context?.catData?.map((item, index) => {
                     return (
                       <TableRow key={index}>
-                        <TableCell width={100} className="!pl-26">
+                        <TableCell width={100} className="md:!pl-26 whitespace-nowrap">
                           <div className="flex items-center gap-4 w-[50px]">
                             <div className="img w-full rounded-md overflow-hidden group">
                               <Link to="/product/12587" data-discover="true">
@@ -119,11 +113,11 @@ const CategoryList = () => {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell width={100} className="!pl-26">
+                        <TableCell width={100} className="md:!pl-26 whitespace-nowrap">
                           {item.name}
                         </TableCell>
 
-                        <TableCell width={100} className="!pl-26">
+                        <TableCell width={100} className="md:!pl-26 whitespace-nowrap">
                           <div className="flex items-center gap-1">
                             <Tooltip title="Edit Product" placement="top">
                               <Button

@@ -74,13 +74,13 @@ const EditSubCatBox = (props) => {
   return (
     <form
       action=""
-      className="w-[100%] flex items-center gap-3 p-0 px-4"
+      className="w-[100%] flex items-center gap-3 p-0 md:px-4"
       onSubmit={handelSubmit}
     >
       {editMode === true && (
         <>
-          <div className="flex items-center justify-between py-2 gap-4">
-            <div className="w-[85%]">
+          <div className="flex w-full md:w-auto flex-col md:flex-row md:items-center justify-between py-2 gap-4">
+            <div className="w-full md:w-[85%]">
               <Select
                 style={{ zoom: "100%" }}
                 className="w-full"

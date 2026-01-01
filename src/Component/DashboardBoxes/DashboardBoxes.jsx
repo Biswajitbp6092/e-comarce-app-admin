@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import "swiper/css/free-mode";
+import { Navigation, FreeMode} from "swiper/modules";
 import { FaUsers } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoMdCart } from "react-icons/io";
 import { TbCategoryPlus } from "react-icons/tb";
 import { TbBrandProducthunt } from "react-icons/tb";
-
-
-
+import { myContext } from "../../App";
 
 const DashboardBoxes = (props) => {
+  const context = useContext(myContext);
   return (
     <>
       <Swiper
@@ -21,9 +21,21 @@ const DashboardBoxes = (props) => {
         pagination={{
           clickable: true,
         }}
-        navigation={true}
-        modules={[Navigation]}
+        navigation={context?.windowWidth >= 1024}
+        modules={[Navigation, FreeMode]}
+        FreeMode={true}
         className="dashboardBoxesSlider"
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
       >
         <SwiperSlide>
           <div className="box p-5 bg-white cursor-pointer hover:bg-[#fafafa] rounded-md border border-[rgba(0,0,0,0.1)] flex items-center gap-4">
@@ -49,7 +61,7 @@ const DashboardBoxes = (props) => {
 
         <SwiperSlide>
           <div className="box p-5 bg-white  cursor-pointer hover:bg-[#fafafa] rounded-md border border-[rgba(0,0,0,0.1)] flex items-center gap-4">
-            <TbCategoryPlus  className="text-[50px] text-[#7928ca]" />
+            <TbCategoryPlus className="text-[50px] text-[#7928ca]" />
             <div className="info w-[70%]">
               <h3>Total Category</h3>
               <b>{props?.category}</b>
@@ -60,7 +72,7 @@ const DashboardBoxes = (props) => {
 
         <SwiperSlide>
           <div className="box p-5 bg-white  cursor-pointer hover:bg-[#fafafa] rounded-md border border-[rgba(0,0,0,0.1)] flex items-center gap-4">
-            <TbBrandProducthunt className="text-[50px] text-[#312be1d8]"/>
+            <TbBrandProducthunt className="text-[50px] text-[#312be1d8]" />
             <div className="info w-[70%]">
               <h3>Total Products</h3>
               <b>{props?.products}</b>

@@ -28,17 +28,28 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`sidebar fixed top-0 left-0 z-50 bg-[#fff] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4 
-          w-[${context.isSidebarOpen === true ? "18%" : "0px"}]`}
+        className={`sidebar fixed top-0 left-0 z-80 bg-[#fff] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4 transition-all overflow-y-auto
+          w-[${
+            context.isSidebarOpen === true ? `${context?.sidebarWidth}%` : "0px"
+          }]`}
       >
-        <div className="py-2 w-full">
-          <Link to="/">
-            <img src="/logo.png" alt="" className="w-[180px]" />
+        <div
+          className="py-2 w-full"
+          onClick={() =>
+            context?.windowWidth <= 992 && context?.setIsSidebarOpen(false)
+          }
+        >
+          <Link to="#">
+            <img src="/logo.png" alt="" className="w-32" />
           </Link>
         </div>
 
         <ul className="mt-4">
-          <li>
+          <li
+            onClick={() =>
+              context?.windowWidth <= 992 && context?.setIsSidebarOpen(false)
+            }
+          >
             <Link to="/">
               <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[500] items-center !py-2 hover:!bg[#262626]">
                 <MdDashboard size={18} />
@@ -46,6 +57,7 @@ const Sidebar = () => {
               </Button>
             </Link>
           </li>
+          
           <li>
             <Button
               onClick={() => isOpenSubMenu(1)}
@@ -65,7 +77,13 @@ const Sidebar = () => {
 
             <Collapse isOpened={subMenuIndex === 1 ? true : false}>
               <ul className="w-full">
-                <li className="w-full">
+                <li
+                  className="w-full"
+                  onClick={() =>
+                    context?.windowWidth <= 992 &&
+                    context?.setIsSidebarOpen(false)
+                  }
+                >
                   <Link to="/homeslider/list">
                     <Button className="!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>

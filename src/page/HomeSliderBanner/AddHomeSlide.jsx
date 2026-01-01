@@ -61,14 +61,14 @@ const AddHomeSlide = () => {
     });
   };
   return (
-    <section className="p-5 bg-gray-50">
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit}>
-        <div className="scroll max-h-[72vh] overflow-y-scroll pr-4 pt-4">
-          <div className="grid grid-cols-7 gap-4">
+    <section className="p-3 px-5 md:p-5 bg-gray-50">
+      <form action="" className="form py-1 p-1 md:p-8 md:py-1" onSubmit={handelSubmit}>
+        <div className="scroll max-h-[72vh] overflow-y-scroll md:pr-4 md:pt-4">
+          <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
             {previews?.length !== 0 &&
               previews.map((image, index) => {
                 return (
-                  <div key={index} className="uploadBoxWrapper relative">
+                  <div key={index} className="uploadBoxWrapper  relative">
                     <span className="absolute w-[20px] h-[20px] rounded-full overflow-hidden bg-red-700 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer">
                       <IoMdClose
                         onClick={() => removeImg(image, index)}

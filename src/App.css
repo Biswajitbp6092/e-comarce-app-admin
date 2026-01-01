@@ -71,3 +71,4 @@ input[type="text"]:disabled input[type="email"]:disabled{
 .contentRight{padding-top: 60px !important;}
 
 .rsw-editor {min-height: 250px !important; background: #ffffff !important;}
+.MuiTableCell-head{ white-space: nowrap;}

@@ -60,11 +60,12 @@ const HomeSliderBanner = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between px-2 py-0 mt-2">
-        <h2 className="text-[18px] font-[600]">
+      <div className="grid grid-cols-1 md:grid-cols-2 px-2 py-0 mt-2 items-center">
+        <h2 className="text-[18px] font-[600] text-left">
           Home Slider Banners <span className="font-[400] text-[14px]"></span>
         </h2>
-        <div className="col w-[25%] ml-auto flex items-center justify-end gap-3">
+
+        <div className="mt-3 md:mt-0 flex md:justify-end">
           <Button
             onClick={() =>
               context.setIsOppenFullScreenPanel({
@@ -72,7 +73,7 @@ const HomeSliderBanner = () => {
                 model: "Add Home Slider",
               })
             }
-            className="btn-blue !text-white btn-sm"
+            className="btn-blue !text-white btn-lg"
           >
             Add Home Slider
           </Button>
@@ -108,7 +109,7 @@ const HomeSliderBanner = () => {
                               <Link to={`/product/1`}>
                                 <img
                                   src={item.images[0]}
-                                  alt="Women Wide Leg Jeans"
+                                  alt="Slide"
                                   className="w-full h-full object-cover group-hover:scale-105 transition-all"
                                 />
                               </Link>
@@ -118,7 +119,7 @@ const HomeSliderBanner = () => {
 
                         <TableCell width={100}>
                           <div className="flex items-center gap-1">
-                            <Tooltip title="Edit Product" placement="top">
+                            <Tooltip title="Edit Banner" placement="top">
                               <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
                                 <AiOutlineEdit
                                   size={18}
@@ -126,15 +127,8 @@ const HomeSliderBanner = () => {
                                 />
                               </Button>
                             </Tooltip>
-                            {/* <Tooltip title="View Product" placement="top">
-                              <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]">
-                                <FaRegEye
-                                  size={18}
-                                  className="text-[rgba(0,0,0,0.7)]"
-                                />
-                              </Button>
-                            </Tooltip> */}
-                            <Tooltip title="Remove Product" placement="top">
+
+                            <Tooltip title="Remove Banner" placement="top">
                               <Button
                                 className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
                                 onClick={() => deleteSlide(item?._id)}

@@ -341,7 +341,7 @@ const EditProducts = () => {
 
   return (
     <section className="p-5 bg-gray-50">
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit}>
+      <form action="" className="form pyy-1 md:py-3 md:p-8" onSubmit={handelSubmit}>
         <div className="scroll max-h-[72vh] overflow-y-scroll pr-4">
           <div className="grid grid-cols-1 mb-3">
             <div className="col">
@@ -373,7 +373,7 @@ const EditProducts = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 mb-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-3 gap-3">
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product Category
@@ -655,7 +655,7 @@ const EditProducts = () => {
 
           <div className="col w-full p-5 px-0">
             <h3 className="font-[700] text-[18px] mb-3">Media & Images</h3>
-            <div className="grid grid-cols-7 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-4">
               {previews?.length !== 0 &&
                 previews.map((image, index) => {
                   return (
@@ -694,7 +694,7 @@ const EditProducts = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-7 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-4">
                 {bannerPreviews?.length !== 0 &&
                   bannerPreviews.map((image, index) => {
                     return (

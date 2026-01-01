@@ -56,9 +56,10 @@ const Orders = () => {
 
   return (
     <div className="card mt-4 shadow-md sm:rounded-lg bg-white h-full">
-      <div className="flex items-center justify-between px-5 py-5">
-        <h2 className="text-[18px] font-[600]">Recent Orders</h2>
-        <div className="w-[25%]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-5 py-5">
+        <h2 className="text-[18px] font-semibold">Recent Orders</h2>
+
+        <div className="w-full sm:w-[40%] md:w-[30%] lg:w-[25%]">
           <SearchBox
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -273,7 +274,11 @@ const Orders = () => {
                                       })}
                                     </td>
                                     <td className="px-3 py-3">
-                                      ₹{item?.subTotal?.toLocaleString("en-US",{style:"currency", currency:"INR"})}
+                                      ₹
+                                      {item?.subTotal?.toLocaleString("en-US", {
+                                        style: "currency",
+                                        currency: "INR",
+                                      })}
                                     </td>
                                   </tr>
                                 ))}

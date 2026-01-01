@@ -126,11 +126,11 @@ const AddSubCategory = () => {
   };
 
   return (
-    <section className="p-5 bg-gray-50 grid grid-cols-2 gap-10">
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit}>
+    <section className="p-5 bg-gray-50 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <form action="" className="form py-1 p-1 md:p-8" onSubmit={handelSubmit}>
         <h4 className="font-[600]">Add Sub Category</h4>
-        <div className="scroll max-h-[72vh] overflow-y-scroll pr-4 pt-4">
-          <div className="grid grid-cols-2 mb-3 gap-5">
+        <div className="scroll max-h-[72vh] overflow-y-scroll md:pr-4 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 mb-3 gap-5">
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product Category
@@ -187,10 +187,10 @@ const AddSubCategory = () => {
         </div>
       </form>
 
-      <form action="" className="form py-3 p-8" onSubmit={handelSubmit2}>
+      <form action="" className="form py-3 md:p-8" onSubmit={handelSubmit2}>
         <h4 className="font-[600]">Add Third lavel Sub Category</h4>
-        <div className="scroll max-h-[72vh] overflow-y-scroll pr-4 pt-4">
-          <div className="grid grid-cols-2 mb-3 gap-5">
+        <div className="scroll max-h-[72vh] overflow-y-scroll md:pr-4 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 mb-3 gap-5">
             <div className="col">
               <h3 className="text-[14px] font-[500] mb-1 text-black">
                 Product Category

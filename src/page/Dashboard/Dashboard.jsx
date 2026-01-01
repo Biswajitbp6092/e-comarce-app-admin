@@ -235,8 +235,6 @@ const Dashboard = () => {
 
   const getTotalSalesByYear = () => {
     fetchDataFromApi(`/api/order/sales`).then((res) => {
-
-      console.log("sales", res?.data);
       const sales = [];
       res?.data?.monthlySales?.length !== 0 &&
         res?.data?.monthlySales?.map((item) => {
@@ -260,7 +258,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="w-full py-2 px-5 border bg-[#f1faff] border-[rgba(0,0,0,0.1)] flex items-center gap-8 mb-5 justify-between rounded-md">
+      <div className="w-full mt-2 lg:mt-4 py-2 px-5 border bg-[#f1faff] border-[rgba(0,0,0,0.1)] flex flex-col md:flex-row items-center gap-8 mb-5 justify-between rounded-md">
         <div className="info">
           <h1 className="text-[30px] font-bold leading-10 mb-3">
             Good Morning <br /> Cameron
@@ -299,10 +297,10 @@ const Dashboard = () => {
       </div>
 
       <div className="card my-4 shadow-md sm:rounded-lg bg-white">
-        <div className="flex items-center justify-between px-5 py-5">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-5 py-5">
           <h2 className="text-[18px] font-[600]">Recent Orders</h2>
 
-          <div className="w-[25%]">
+          <div className="w-full md:w-[25%] mt-4 md:mt-0">
             <SearchBox
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -315,40 +313,40 @@ const Dashboard = () => {
           <table className="w-full text-sm text-left rtl:text-left text-gray-600 dark:text-gray-600">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-600">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-3 md:px-6 py-3">
                   &nbsp;
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Order Id
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   payment Id
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Name
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Phone Number
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Address
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Pincode
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Total Amount
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Email
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   User Id
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Order Status
                 </th>
-                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                <th scope="col" className="px-3 md:px-6 py-3 whitespace-nowrap">
                   Date
                 </th>
               </tr>
@@ -359,7 +357,7 @@ const Dashboard = () => {
                   return (
                     <>
                       <tr className="bg-white border-b  dark:border-gray-700">
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-4 font-[500]">
                           <Button
                             onClick={() => isShowOrderProduct(index)}
                             className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]"
@@ -377,21 +375,21 @@ const Dashboard = () => {
                             )}
                           </Button>
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           <span className="text-[#3872fa]">{order?._id}</span>
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500] whitespace-nowrap">
                           <span className="text-[#3872fa]">
                             {order?.paymentId || "Cash On Delivery"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                        <td className="px-3 md:px-6 py-2 md:py-4  font-[500] whitespace-nowrap">
                           {order?.userId?.name}
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4  font-[500]">
                           {order?.delivery_address?.mobile}
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4  font-[500]">
                           <span className="block w-[400px]">
                             {order?.delivery_address?.address_line +
                               ", " +
@@ -404,24 +402,24 @@ const Dashboard = () => {
                               order?.delivery_address?.country}
                           </span>
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           {order?.delivery_address?.pin_code}
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           {order?.totalAmt?.toLocaleString("en-US", {
                             style: "currency",
                             currency: "INR",
                           })}
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           {order?.userId?.email}
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           <span className="text-[#3872fa]">
                             {order?.userId?._id}
                           </span>
                         </td>
-                        <td className="px-6 py-4 font-[500]">
+                        <td className="px-3 md:px-6 py-2 md:py-4 font-[500]">
                           <Select
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
@@ -440,7 +438,7 @@ const Dashboard = () => {
                             <MenuItem value="delivered">Delivered</MenuItem>
                           </Select>
                         </td>
-                        <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                        <td className="px-3 md:px-6 py-2 md:py-4  font-[500] whitespace-nowrap">
                           {order?.createdAt?.split("T")[0]}
                         </td>
                       </tr>
@@ -573,7 +571,7 @@ const Dashboard = () => {
           <h2 className="text-[18px] font-[600]">Total users & Total Sale</h2>
         </div>
 
-        <div className="flex items-center gap-5 px-5 py-5 pt-1">
+        <div className="flex flex-col md:flex-row items-center gap-5 px-5 py-5 pt-1">
           <Button
             className="flex items-center gap-1 text-[15px] cursor-pointer"
             onClick={getTotalUsersByYear}
@@ -593,8 +591,8 @@ const Dashboard = () => {
 
         {chartData?.length !== 0 && (
           <BarChart
-            width={1000}
-            height={500}
+            width={context?.windowWidth >=920 ? (context?.windowWidth - 360) :(context?.windowWidth - 50) }
+            height={context?.windowWidth < 640 ? 250 : context?.windowWidth < 1024 ? 400 :500}
             data={chartData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
